@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f2f2f2;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 30px;
+  margin: 100px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-logo-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#login-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-boxes {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.create-account-link {
+  text-align: center;
+}
+
+#login-btn {
+  background-color: rgb(144, 73, 210);
+  border-radius: 5px;
+  color: white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+label {
+  color: #807c7c;
+}
