@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Login - Aqua Jar</title>
+
+    <!-- Font Awesome Icons (Jar Icon) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -11,51 +13,67 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="login.css" />
   </head>
   <body>
-    <div class="container">
-      <form id="login-form">
-        <div class="login-logo-title">
-          <i class="fa-solid fa-jar" style="color: rgb(102, 17, 220)"></i>
+    <main class="container">
+      <!-- Login Form -->
+      <form id="login-form" autocomplete="on">
+        <!-- Logo and title -->
+        <header class="login-logo-title">
+          <i class="fa-solid fa-jar" aria-hidden="true"></i>
           <span>Aqua Jar</span>
-        </div>
-        <br />
-        <div id="login-header">
-          <h2>Login to your account</h2>
-          <p style="color: #807c7c">
-            Welcome back! Enter your details to login to your account
-          </p>
-        </div>
-        <br />
-        <div>
-          <label for="email">Email</label> <br />
-          <input
-            type="text"
-            id="email"
-            name="email"
-            class="input-boxes"
-          /><br />
-          <label for="password">Password</label> <br />
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="input-boxes"
-          /><br />
-        </div>
-        <br />
-        <label for="remember" id="label-remember">
-          <input type="checkbox" id="remember" name="remember" />
-          Remember me
-        </label>
-        <br />
-        <button id="login-btn">Login</button> <br /><br />
-        <div class="create-account-link">
+        </header>
+
+        <!-- Login Header -->
+        <section class="login-header">
+          <h1>Login to your account</h1>
+          <p>Welcome back! Enter your details to login to your account</p>
+        </section>
+
+        <!-- Input Fields -->
+        <section class="input-section">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="input-boxes"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="input-boxes"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <!-- Remember Me -->
+          <div class="form-group remember">
+            <input type="checkbox" id="remember" name="remember" />
+            <label for="remember">Remember me</label>
+          </div>
+        </section>
+
+        <!-- Login Button -->
+        <button id="login-btn" type="submit">Login</button>
+
+        <!-- Create Account Link -->
+        <p class="create-account-link">
           New here? <a href="/signup.html">Create Account</a>
-        </div>
+        </p>
       </form>
-    </div>
+    </main>
     <script src="login.js"></script>
   </body>
 </html>
