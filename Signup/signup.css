@@ -1,0 +1,141 @@
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+select,
+option {
+  font-family: "Arial", sans-serif;
+  font-size: 14px;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-title i {
+  color: rgb(102, 17, 220);
+}
+
+.input-boxes.input-error {
+  border-color: red;
+}
+.signup-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.input-boxes {
+  margin: 10px 0 5px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+small {
+  color: red;
+  font-size: 0.8rem;
+}
+
+#login-link {
+  text-align: center;
+}
+
+#login-link a {
+  color: #0000ee;
+  text-decoration: none;
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+#nextBtn {
+  /*  Consumes all available space on the left, pushing the button to the right */
+  margin-left: auto;
+}
+button {
+  background-color: rgb(144, 73, 210);
+  border-radius: 5px;
+  color: white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: 0.5rem;
+}
+
+#steps-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  align-self: center;
+  margin-bottom: 5px;
+}
+
+.steps {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;
+  border-radius: 50%;
+  opacity: 0.5;
+  display: inline-flex;
+}
+
+/* Mark the active step: */
+.steps.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.steps.finish {
+  background-color: #14743c;
+}
+
+fieldset {
+  border: 1px solid #e0e0e0; /* lighter, subtler border */
+  border-radius: 8px; /* rounded corners */
+  padding: 15px;
+}
+
+legend {
+  padding: 0 8px; /* space around legend text */
+  color: #666; /* softer color */
+  font-size: 0.9rem;
+}
+
+#role-select {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}

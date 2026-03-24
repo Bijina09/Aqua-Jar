@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup Form</title>
+
+    <!-- Font Awesome Icons (Jar Icon) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="signup.css" />
+  </head>
+  <body>
+    <main class="container">
+      <form action="" id="signup-form">
+        <!-- Logo and Title -->
+        <header class="logo-title">
+          <i class="fa-solid fa-jar" aria-hidden="true"></i>
+          <span>Aqua Jar</span>
+        </header>
+
+        <!-- Signup Header -->
+        <section class="signup-header">
+          <h2>Sign Up</h2>
+        </section>
+
+        <div data-step="1">
+          <!-- Role Selection -->
+          <div class="form-group" id="role-select">
+            <label for="role">Select Role: </label>
+            <select id="role" onchange="changeRole()">
+              <option value="customer">Customer</option>
+              <option value="distributor">Distributor</option>
+            </select>
+          </div>
+
+          <!-- Personal Information -->
+          <fieldset>
+            <legend>Personal Information</legend>
+
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" class="input-boxes" required />
+              <small class="error name-error"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <input type="text" id="address" class="input-boxes" required />
+              <small class="error address-error"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number:</label>
+              <input type="text" id="phone" class="input-boxes" required />
+              <small class="error phone-error"></small>
+            </div>
+          </fieldset>
+        </div>
+        <!-- Account Information -->
+        <fieldset data-step="2">
+          <legend>Account Information</legend>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="input-boxes" required />
+            <small class="error email-error"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" class="input-boxes" required />
+            <small class="error password-error"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="ConfirmPassword">Confirm Password:</label>
+            <input
+              type="password"
+              id="ConfirmPassword"
+              class="input-boxes"
+              required
+            />
+            <small class="error confirm-password-error"></small>
+          </div>
+        </fieldset>
+
+        <!-- Additional Information -->
+        <fieldset id="additionalFields" data-step="3">
+          <legend>Additional Information</legend>
+          <div class="form-group">
+            <label for="panNo">PAN Number:</label>
+            <input type="text" id="panNo" class="input-boxes" required />
+            <small class="error pan-error"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="supplierName">Supplier Name:</label>
+            <input type="text" id="supplierName" class="input-boxes" required />
+            <small class="error supplier-name-error"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="supplierPanNo">Supplier PAN Number:</label>
+            <input
+              type="text"
+              id="supplierPanNo"
+              class="input-boxes"
+              required
+            />
+            <small class="error supplier-pan-error"></small>
+          </div>
+        </fieldset>
+
+        <!-- Navigation Buttons -->
+        <div class="button-group">
+          <button type="button" id="prevBtn" onClick="handleBack()">
+            Previous
+          </button>
+          <button type="button" id="nextBtn" onClick="handleNext()">
+            Next
+          </button>
+        </div>
+
+        <!-- Steps Circles -->
+        <div id="steps-container">
+          <!-- Later filled by JS -->
+        </div>
+
+        <!-- Login -->
+        <p id="login-link">
+          Already have an Account?
+          <a href="../Login/login.html">login</a>
+        </p>
+      </form>
+    </main>
+    <script src="signup.js"></script>
+  </body>
+</html>
