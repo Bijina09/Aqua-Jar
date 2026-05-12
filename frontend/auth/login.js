@@ -60,5 +60,27 @@ loginForm.addEventListener("submit", (e) => {
     localStorage.removeItem("email");
   }
 
-  alert("Login successful!");
+  function showFormMessage(message, isSuccess) {
+    const msg = document.getElementById("form-message");
+    msg.textContent = message;
+    msg.className = "form-message " + (isSuccess ? "success" : "error");
+  }
+
+  const form = document.getElementById("login-form");
+
+  fetch("/Aqua-Jar/backend/api/login.php", {
+    method: "POST",
+    body: new FormData(form),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      if (data.status === "success") {
+        showFormMessage("Login success", true);
+        // redirect based on role
+      } else {
+        showFormMessage(data.message, false);
+      }
+    });
 });

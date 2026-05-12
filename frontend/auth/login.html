@@ -42,6 +42,7 @@
               id="email"
               name="email"
               class="input-boxes"
+              placeholder="example@email.com"
               autocomplete="email"
               required
             />
@@ -54,6 +55,7 @@
               type="password"
               id="password"
               name="password"
+              placeholder="**********"
               class="input-boxes"
               autocomplete="current-password"
               required
@@ -68,12 +70,15 @@
           </div>
         </section>
 
+        <!-- General Error Msg -->
+        <div id="form-message" class="form-message"></div>
+
         <!-- Login Button -->
         <button id="login-btn" type="submit">Login</button>
 
         <!-- Create Account Link -->
         <p class="create-account-link">
-          New here? <a href="/signup.html">Create Account</a>
+          New here? <a href="signup.html">Create Account</a>
         </p>
       </form>
     </main>

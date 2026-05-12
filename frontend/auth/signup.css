@@ -139,3 +139,20 @@ legend {
   margin-bottom: 15px;
   gap: 10px;
 }
+
+.form-message {
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: block;
+}
+
+.form-message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.form-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}

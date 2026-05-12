@@ -22,15 +22,15 @@ function handleNext() {
   const currentIndex = steps.indexOf(currentStep); //Where I am on the list?
   const nextStep = steps[currentIndex + 1];
 
+  if (!validateStep(currentStep)) {
+    return;
+  }
+
   if (!nextStep) {
     submitForm(); //Submit the form if there are no more steps
     return;
   }
-  if (validateStep(currentStep)) {
-    goToStep(nextStep);
-  } else {
-    // show error message
-  }
+  goToStep(nextStep);
 }
 
 function handleBack() {
@@ -151,21 +151,28 @@ function validateStep(step) {
       showError("email-error", "Email is required");
       return false;
     }
+    const emailRegex = /^[a-z0-9]+@(gmail|yahoo|hotmail)\.com$/;
+    if (!emailRegex.test(email)) {
+      showError("email-error", "Please enter a valid email address");
+      return false;
+    }
+
     if (password === "") {
       showError("password-error", " Password is required");
       return false;
     }
+    if (password.length < 8) {
+      showError("password-error", "Password should be of atleast 8 characters");
+      return false;
+    }
+
     if (confirmPassword === "") {
       showError("confirm-password-error", "Confirm Password is required");
       return false;
     }
+
     if (password !== confirmPassword) {
       showError("confirm-password-error", "Passwords do not match");
-      return false;
-    }
-    const emailRegex = /^[a-z0-9]+@(gmail|yahoo|hotmail)\.com$/;
-    if (!emailRegex.test(email)) {
-      showError("email-error", "Please enter a valid email address");
       return false;
     }
     return true;
@@ -196,6 +203,8 @@ function validateStep(step) {
     }
     return true;
   }
+  console.log("STEP:", step);
+  console.log("VALIDATION RESULT:", validateStep(step));
 }
 
 function getSteps() {
@@ -208,4 +217,35 @@ function getSteps() {
   }
 }
 
+function showFormMessage(message, isSuccess) {
+  const msg = document.getElementById("form-message");
+  msg.textContent = message;
+  msg.className = "form-message " + (isSuccess ? "success" : "error");
+}
+
+function submitForm() {
+  const form = document.getElementById("signup-form");
+
+  fetch("/Aqua-Jar/backend/api/signup.php", {
+    method: "POST",
+    body: new FormData(form),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      if (data.status === "success") {
+        showFormMessage(data.message, true);
+        setTimeout(() => {
+          window.location.href = "/Aqua-Jar/frontend/auth/login.html";
+        }, 2000);
+      } else {
+        showFormMessage(data.message, false);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      showFormMessage("Something went wrong", false);
+    });
+}
 init();

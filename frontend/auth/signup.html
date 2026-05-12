@@ -17,7 +17,7 @@
   </head>
   <body>
     <main class="container">
-      <form action="" id="signup-form">
+      <form id="signup-form">
         <!-- Logo and Title -->
         <header class="logo-title">
           <i class="fa-solid fa-jar" aria-hidden="true"></i>
@@ -45,19 +45,40 @@
 
             <div class="form-group">
               <label for="name">Name:</label>
-              <input type="text" id="name" class="input-boxes" required />
+              <input
+                type="text"
+                id="name"
+                class="input-boxes"
+                name="name"
+                placeholder="Enter your name"
+                required
+              />
               <small class="error name-error"></small>
             </div>
 
             <div class="form-group">
               <label for="address">Address:</label>
-              <input type="text" id="address" class="input-boxes" required />
+              <input
+                type="text"
+                id="address"
+                class="input-boxes"
+                placeholder="Enter your address"
+                name="address"
+                required
+              />
               <small class="error address-error"></small>
             </div>
 
             <div class="form-group">
               <label for="phone">Phone Number:</label>
-              <input type="text" id="phone" class="input-boxes" required />
+              <input
+                type="text"
+                id="phone"
+                class="input-boxes"
+                placeholder="Enter your phone number"
+                name="phone"
+                required
+              />
               <small class="error phone-error"></small>
             </div>
           </fieldset>
@@ -68,13 +89,27 @@
 
           <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" class="input-boxes" required />
+            <input
+              type="email"
+              id="email"
+              class="input-boxes"
+              placeholder="example@email.com"
+              name="email"
+              required
+            />
             <small class="error email-error"></small>
           </div>
 
           <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" class="input-boxes" required />
+            <input
+              type="password"
+              id="password"
+              class="input-boxes"
+              placeholder="**********"
+              name="password"
+              required
+            />
             <small class="error password-error"></small>
           </div>
 
@@ -84,6 +119,7 @@
               type="password"
               id="ConfirmPassword"
               class="input-boxes"
+              placeholder="**********"
               required
             />
             <small class="error confirm-password-error"></small>
@@ -95,13 +131,27 @@
           <legend>Additional Information</legend>
           <div class="form-group">
             <label for="panNo">PAN Number:</label>
-            <input type="text" id="panNo" class="input-boxes" required />
+            <input
+              type="text"
+              id="panNo"
+              class="input-boxes"
+              placeholder="Enter your PAN No"
+              name="PAN"
+              required
+            />
             <small class="error pan-error"></small>
           </div>
 
           <div class="form-group">
             <label for="supplierName">Supplier Name:</label>
-            <input type="text" id="supplierName" class="input-boxes" required />
+            <input
+              type="text"
+              id="supplierName"
+              class="input-boxes"
+              placeholder="Enter supplier's name"
+              name="supplierName"
+              required
+            />
             <small class="error supplier-name-error"></small>
           </div>
 
@@ -111,12 +161,15 @@
               type="text"
               id="supplierPanNo"
               class="input-boxes"
+              name="supplierPanNo"
+              placeholder="Enter supplier's PAN No"
               required
             />
             <small class="error supplier-pan-error"></small>
           </div>
         </fieldset>
-
+        <!-- General Error Msg -->
+        <div id="form-message" class="form-message"></div>
         <!-- Navigation Buttons -->
         <div class="button-group">
           <button type="button" id="prevBtn" onClick="handleBack()">
@@ -135,7 +188,7 @@
         <!-- Login -->
         <p id="login-link">
           Already have an Account?
-          <a href="../Login/login.html">login</a>
+          <a href="login.html">login</a>
         </p>
       </form>
     </main>

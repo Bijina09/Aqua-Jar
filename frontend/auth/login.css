@@ -65,7 +65,7 @@ small {
 
 .remember {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .create-account-link {
@@ -105,4 +105,22 @@ label {
   .login-header h1 {
     font-size: 1.5rem;
   }
+}
+
+.form-message {
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.form-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
 }
