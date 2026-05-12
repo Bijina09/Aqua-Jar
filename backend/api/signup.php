@@ -1,12 +1,10 @@
 <?php
     header("Content-Type: application/json");
 
-    require_once __DIR__ . "/../controllers/CustomerController.php";
+    require_once __DIR__ . "/../controllers/AuthController.php";
 
-    $controller = new CustomerController();
+    $auth = new AuthController();
 
-    $controller->register();
-var_dump($result);
-exit;
+    $auth->register();
 ?>
     

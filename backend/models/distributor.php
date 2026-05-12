@@ -1,6 +1,6 @@
 <?php
 
-    require_once "/../config/db.php";
+    require_once __DIR__ . "/../config/db.php";
 
     class Distributor {
 
@@ -14,7 +14,7 @@
 
         public function register($name, $address, $phone, $PAN_NO, $supplier, $supplier_PAN, $email, $password) {
 
-            $sql = "INSERT INTO distributor (name, address, phone, PAN_NO, supplier, supplier_PAN, email, password) VALUES (?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO distributor (name, address, phone, PAN_NO, supplier, supplier_PAN, email, password_hashed) VALUES (?,?,?,?,?,?,?,?)";
 
             $stmt = $this->conn->prepare($sql);
 
@@ -35,9 +35,26 @@
             $stmt->execute();
 
             //To use fetch_assoc(), Convert statement into object
-            $result = $stmt->get_result();
+            $stmt->store_result();
 
-            return $result->fetch_assoc();
+            if($stmt->num_rows === 0) {
+                return null;
+            }
+
+            $stmt->bind_result($id, $name, $address, $phone, $PAN_NO, $supplier, $supplier_PAN, $email, $password_hashed);
+
+            $stmt->fetch();
+
+            return [
+                'id' => $id,
+                'name'=> $name,
+                'address'=> $address,
+                'email'=> $email,
+                'PAN_NO'=> $PAN_NO,
+                'supplier'=> $supplier,
+                'email'=> $email,
+                'password_hashed' => $password_hashed
+            ]; 
 
         }
 
@@ -52,8 +69,10 @@
 
             $stmt->execute();
 
+            $stmt->store_result();
+
             //Return true or false
-            return $stmt->get_result->num_rows > 0;
+            return $stmt->num_rows > 0;
 
         }
 

@@ -1,11 +1,11 @@
 <?php
     
-    require_once __DIR__ . "/../controllers/CustomerController.php";
+    require_once __DIR__ . "/../controllers/AuthController.php";
 
     header("Content-Type: application/json");
     
-    $controller = new CustomerController();
+    $auth = new AuthController();
 
-    $controller->login();
+    $auth->login();
 
 ?>
