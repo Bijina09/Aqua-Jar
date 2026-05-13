@@ -78,7 +78,16 @@ loginForm.addEventListener("submit", (e) => {
 
       if (data.status === "success") {
         showFormMessage("Login success", true);
+
         // redirect based on role
+        if (data.role === "customer") {
+          console.log("Redirecting customer...");
+          window.location.href =
+            "/Aqua-Jar/frontend/dashboard/CustomerDashboard.php";
+        } else if (data.role === "distributor") {
+          window.location.href =
+            "/Aqua-Jar/frontend/dashboard/DistributorDashboard.php";
+        }
       } else {
         showFormMessage(data.message, false);
       }

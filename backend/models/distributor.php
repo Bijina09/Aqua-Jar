@@ -34,27 +34,31 @@
 
             $stmt->execute();
 
-            //To use fetch_assoc(), Convert statement into object
-            $stmt->store_result();
+            $result = $stmt->get_result();
 
-            if($stmt->num_rows === 0) {
-                return null;
-            }
+            return $result->fetch_assoc();
 
-            $stmt->bind_result($id, $name, $address, $phone, $PAN_NO, $supplier, $supplier_PAN, $email, $password_hashed);
+            // //To use fetch_assoc(), Convert statement into object
+            // $stmt->store_result();
 
-            $stmt->fetch();
+            // if($stmt->num_rows === 0) {
+            //     return null;
+            // }
 
-            return [
-                'id' => $id,
-                'name'=> $name,
-                'address'=> $address,
-                'email'=> $email,
-                'PAN_NO'=> $PAN_NO,
-                'supplier'=> $supplier,
-                'email'=> $email,
-                'password_hashed' => $password_hashed
-            ]; 
+            // $stmt->bind_result($id, $name, $address, $phone, $PAN_NO, $supplier, $supplier_PAN, $email, $password_hashed);
+
+            // $stmt->fetch();
+
+            // return [
+            //     'id' => $id,
+            //     'name'=> $name,
+            //     'address'=> $address,
+            //     'email'=> $email,
+            //     'PAN_NO'=> $PAN_NO,
+            //     'supplier'=> $supplier,
+            //     'email'=> $email,
+            //     'password_hashed' => $password_hashed
+            // ]; 
 
         }
 
@@ -75,6 +79,39 @@
             return $stmt->num_rows > 0;
 
         }
+
+         public function fetchData($id) {
+
+            $sql = "SELECT name,address,phone,PAN_NO,supplier,supplier_PAN,email FROM distributor WHERE id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $id);
+
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            return $result->fetch_assoc();
+
+         }
+
+         public function editData($id, $name, $address, $phone, $panNo, $supplierName,
+                     $supplierPanNo,$email) {
+
+            $sql = "UPDATE distributor SET
+            name = ?, address = ?, phone = ?,
+            PAN_NO = ?, supplier = ?,
+            supplier_PAN = ?, email = ?  WHERE id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("sssssssi", $name, $address, $phone, $panNo ,$supplierName,
+                     $supplierPanNo, $email, $id);
+
+            return $stmt->execute();
+        }
+
 
 
 

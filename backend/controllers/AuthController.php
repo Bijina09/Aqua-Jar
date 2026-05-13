@@ -55,6 +55,12 @@
                 $this->response("error", "Incorrect credentials");
             }
             
+            //Storing user info in session
+            session_start();
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['role'] = $role;
+            $_SESSION['name'] = $user['name'];
+
             $this->response("success", "Login succesfull", $role);
           
         }

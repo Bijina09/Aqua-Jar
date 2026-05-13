@@ -1,12 +1,12 @@
 <?php
 
-    require_once __DIR__ . "/../models/Customer.php";
+    require_once __DIR__ . "/../models/Distributor.php";
     require_once __DIR__ . "/../config/db.php";
-    //controller passes it to customerProfile
+    //controller passes it to distributorProfile
 
     header("Content-Type: application/json");
     
-    class CustomerController{
+    class distributorController{
         
         //For repeated JSON messages
         private function response($status, $message) {
@@ -17,27 +17,26 @@
             exit;
         }
 
-        public function customerProfile() {
+        public function distributorProfile() {
 
             global $conn;
            
             session_start();
 
             //If no user_id error so check
-            //Added role check coz same id possible between tables
+            //Same comment check customer
             if(!isset($_SESSION['user_id']) ||
-             $_SESSION['role'] !== "customer"
+                $_SESSION['role'] !== "distributor"
             ) {
-                //Don't go forgetting this everytime
                 $this->response("error", "Unauthorized");
 
             }
 
             $user_id = $_SESSION['user_id'];
 
-            $customer = new Customer($conn);
+            $distributor = new distributor($conn);
 
-            $result = $customer->fetchData($user_id);
+            $result = $distributor->fetchData($user_id);
 
             if(!$result) {
                 $this->response("error", "User not found");
@@ -48,6 +47,9 @@
                 "name" => $result['name'],
                 "address" => $result['address'],
                 "phone" => $result['phone'],
+                "panNo" => $result['PAN_NO'],
+                "supplierName" => $result['supplier'],
+                "supplierPanNo" => $result['supplier_PAN'],
                 "email" => $result['email']
             ]);
 
@@ -59,56 +61,56 @@
             return trim($_POST[$key] ?? "");
         }
 
-        public function updateCustomer() {
+        public function updateDistributor() {
 
             global $conn;
            
             session_start();
 
             //If no user_id error so check
-            //Added role check coz same id possible between tables
+            //Same comment check customer
             if(!isset($_SESSION['user_id']) ||
-             $_SESSION['role'] !== "customer"
+                $_SESSION['role'] !== "distributor"
             ) {
-                //Don't go forgetting this everytime
                 $this->response("error", "Unauthorized");
 
             }
 
             $user_id = $_SESSION['user_id'];
 
-            $customer = new Customer($conn);
+            $distributor = new distributor($conn);
 
             $name = $this->clean('name');
             $address = $this->clean('address');
             $phone = $this->clean('phone');
             $email = $this->clean('email');
+            $panNo = $this->clean("panNo");
+            $supplierName = $this->clean("supplierName");
+            $supplierPanNo = $this->clean("supplierPanNo");
 
             if (
                 empty($name) ||
                 empty($address) ||
                 empty($phone) ||
-                empty($email)
+                empty($email) || 
+                empty($panNo) ||
+                empty($supplierName) ||
+                empty($supplierPanNo)
             ) {
                 $this->response("error", "Fields cannot be empty");
             }
-            
-            $result = $customer->editData(
-                $user_id,$name,$address,$phone,$email);
+            $result = $distributor->editData($user_id, $name, $address, $phone, $panNo, $supplierName,
+                     $supplierPanNo, $email);
 
             if(!$result) {
-                $this->response("error", "Update Failed");
+                $this->response("error", "Edit failure");
             }
 
-            $this->response("success", "Updated succcesfully"); 
+            $this->response("success", "Updated successfully");
 
         }
 
-
-        
-
-        
-   
+ 
     }
 
 ?>
