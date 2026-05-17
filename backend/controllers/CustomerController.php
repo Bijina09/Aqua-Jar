@@ -2,6 +2,8 @@
 
     require_once __DIR__ . "/../models/Customer.php";
     require_once __DIR__ . "/../config/db.php";
+    require_once __DIR__ . "/../models/Distributor.php";
+
     //controller passes it to customerProfile
 
     header("Content-Type: application/json");
@@ -101,6 +103,45 @@
             }
 
             $this->response("success", "Updated succcesfully"); 
+
+        }
+
+        public function browseJars() {
+
+            global $conn;
+           
+            session_start();
+
+            //If no user_id, error so check
+            //Added role check coz same id possible between tables
+            if(!isset($_SESSION['user_id']) ||
+             $_SESSION['role'] !== "customer"
+            ) {
+                //Don't go forgetting this everytime
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $distributor = new Distributor($conn);
+
+            $customer = new Customer($conn);
+
+            $data = $customer->fetchData($user_id);
+
+            $address = $data['address'];
+
+            $result = $distributor->browseAll($address);
+
+            if(empty($result)) {
+                $this->response("error", "No jar posts available");
+            }
+
+            echo json_encode([
+                "status" => "success",
+                "data" => $result
+            ]);
 
         }
 

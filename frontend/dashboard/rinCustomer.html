@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JAR Water Management Dashboard</title>
+    <link rel="stylesheet" href="rincss.css" />
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h1>JAR</h1>
+        <p>Water Management System</p>
+      </div>
+
+      <div class="nav-section">
+        <p class="nav-title">Main Menu</p>
+        <div class="nav-item active">Dashboard</div>
+        <div class="nav-item">Tank Levels</div>
+        <div class="nav-item">Deliveries</div>
+        <div class="nav-item">Quality Tests</div>
+      </div>
+
+      <div class="nav-section">
+        <p class="nav-title">Reports</p>
+        <div class="nav-item">Analytics</div>
+        <div class="nav-item">Reports</div>
+        <div class="nav-item">Alerts</div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="nav-item settings">Settings</div>
+        <div class="user-pill">
+          <div class="avatar">RK</div>
+          <div class="user-info">
+            <p>Ram Kumar</p>
+            <span>Administrator</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <!-- TOPBAR -->
+      <div class="topbar">
+        <div>
+          <h2>Dashboard Overview</h2>
+          <p>Sunday, 17 May 2026 — Kathmandu Zone</p>
+        </div>
+        <div class="badge-live">
+          <span class="live-dot"></span> Live Monitoring
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-grid">
+        <div class="stat-card purple">
+          <div class="stat-icon">Total Supply</div>
+          <p class="stat-label">Total Supply</p>
+          <p class="stat-value">12,480 L</p>
+          <p class="stat-sub">↑ 4% vs yesterday</p>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon">Deliveries</div>
+          <p class="stat-label">Deliveries Today</p>
+          <p class="stat-value">38</p>
+          <p class="stat-sub">6 currently in transit</p>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-icon">Jars</div>
+          <p class="stat-label">Jars Dispatched</p>
+          <p class="stat-value">214</p>
+          <p class="stat-sub">↑ 12 since morning</p>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-icon">Alerts</div>
+          <p class="stat-label">Low Tank Alerts</p>
+          <p class="stat-value">3</p>
+          <p class="stat-sub">Immediate action needed</p>
+        </div>
+      </div>
+
+      <!-- MID ROW -->
+      <div class="mid-grid">
+        <!-- TANK LEVELS -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Tank Fill Levels</span>
+            <span class="panel-tag">Live</span>
+          </div>
+          <div class="jar-row">
+            <div class="jar-item">
+              <div class="jar-wrap">
+                <div class="jar-fill purple" style="height: 82%"></div>
+              </div>
+              <p class="jar-name">Tank A</p>
+              <p class="jar-pct">82%</p>
+            </div>
+            <div class="jar-item">
+              <div class="jar-wrap">
+                <div class="jar-fill green" style="height: 65%"></div>
+              </div>
+              <p class="jar-name">Tank B</p>
+              <p class="jar-pct">65%</p>
+            </div>
+            <div class="jar-item">
+              <div class="jar-wrap">
+                <div class="jar-fill orange" style="height: 28%"></div>
+              </div>
+              <p class="jar-name">Tank C</p>
+              <p class="jar-pct">28%</p>
+            </div>
+            <div class="jar-item">
+              <div class="jar-wrap">
+                <div class="jar-fill purple" style="height: 91%"></div>
+              </div>
+              <p class="jar-name">Tank D</p>
+              <p class="jar-pct">91%</p>
+            </div>
+            <div class="jar-item">
+              <div class="jar-wrap">
+                <div class="jar-fill green" style="height: 50%"></div>
+              </div>
+              <p class="jar-name">Tank E</p>
+              <p class="jar-pct">50%</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT DELIVERIES -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Recent Deliveries</span>
+            <span class="panel-tag">Today</span>
+          </div>
+          <div class="delivery-list">
+            <div class="delivery-item">
+              <div class="delivery-icon purple">Home</div>
+              <div class="delivery-info">
+                <p class="delivery-name">Baluwatar Residence</p>
+                <p class="delivery-sub">4 jars · 08:30 AM</p>
+              </div>
+              <span class="delivery-status status-delivered">Delivered</span>
+            </div>
+            <div class="delivery-item">
+              <div class="delivery-icon orange">Office</div>
+              <div class="delivery-info">
+                <p class="delivery-name">Thamel Office Hub</p>
+                <p class="delivery-sub">10 jars · 10:15 AM</p>
+              </div>
+              <span class="delivery-status status-transit">In Transit</span>
+            </div>
+            <div class="delivery-item">
+              <div class="delivery-icon green">Home</div>
+              <div class="delivery-info">
+                <p class="delivery-name">Lazimpat Apartment</p>
+                <p class="delivery-sub">2 jars · 11:00 AM</p>
+              </div>
+              <span class="delivery-status status-delivered">Delivered</span>
+            </div>
+            <div class="delivery-item">
+              <div class="delivery-icon red">School</div>
+              <div class="delivery-info">
+                <p class="delivery-name">Baneshwor School</p>
+                <p class="delivery-sub">8 jars · 12:30 PM</p>
+              </div>
+              <span class="delivery-status status-pending">Pending</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div class="bottom-grid">
+        <!-- WATER QUALITY -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Water Quality</span>
+            <span class="panel-tag">Tested Today</span>
+          </div>
+          <div class="quality-bars">
+            <div class="quality-row">
+              <div class="quality-label">
+                <span>pH Level</span><span>7.2 / 8.5</span>
+              </div>
+              <div class="quality-track">
+                <div class="quality-fill fill-purple" style="width: 85%"></div>
+              </div>
+            </div>
+            <div class="quality-row">
+              <div class="quality-label">
+                <span>Turbidity</span><span>0.4 NTU</span>
+              </div>
+              <div class="quality-track">
+                <div class="quality-fill fill-green" style="width: 96%"></div>
+              </div>
+            </div>
+            <div class="quality-row">
+              <div class="quality-label">
+                <span>TDS (ppm)</span><span>140 / 500</span>
+              </div>
+              <div class="quality-track">
+                <div class="quality-fill fill-purple" style="width: 72%"></div>
+              </div>
+            </div>
+            <div class="quality-row">
+              <div class="quality-label">
+                <span>Chlorine</span><span>0.6 mg/L</span>
+              </div>
+              <div class="quality-track">
+                <div class="quality-fill fill-orange" style="width: 60%"></div>
+              </div>
+            </div>
+            <div class="quality-row">
+              <div class="quality-label">
+                <span>Bacteria Count</span><span>0 CFU — Safe</span>
+              </div>
+              <div class="quality-track">
+                <div class="quality-fill fill-green" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SYSTEM ALERTS -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">System Alerts</span>
+            <span class="panel-tag">4 Active</span>
+          </div>
+          <div class="alerts-list">
+            <div class="alert-item err">
+              <div class="alert-icon">!</div>
+              <div>
+                <p class="alert-msg">Tank C critically low — refill needed</p>
+                <p class="alert-time">09:45 AM</p>
+              </div>
+            </div>
+            <div class="alert-item warn">
+              <div class="alert-icon">!</div>
+              <div>
+                <p class="alert-msg">Delivery #38 delayed — traffic route</p>
+                <p class="alert-time">10:22 AM</p>
+              </div>
+            </div>
+            <div class="alert-item info">
+              <div class="alert-icon">i</div>
+              <div>
+                <p class="alert-msg">Scheduled filter flush at 2:00 PM</p>
+                <p class="alert-time">System</p>
+              </div>
+            </div>
+            <div class="alert-item ok">
+              <div class="alert-icon">✓</div>
+              <div>
+                <p class="alert-msg">Morning quality test passed — all clear</p>
+                <p class="alert-time">07:00 AM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

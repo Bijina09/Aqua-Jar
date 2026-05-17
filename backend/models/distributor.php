@@ -1,7 +1,5 @@
 <?php
 
-    require_once __DIR__ . "/../config/db.php";
-
     class Distributor {
 
         private $conn;
@@ -12,13 +10,13 @@
 
         }
 
-        public function register($name, $address, $phone, $PAN_NO, $supplier, $supplier_PAN, $email, $password) {
+        public function register($name, $address, $phone, $PAN_NO, $supplier, $supplier_PAN, $service_area, $email, $password) {
 
-            $sql = "INSERT INTO distributor (name, address, phone, PAN_NO, supplier, supplier_PAN, email, password_hashed) VALUES (?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO distributor (name, address, phone, PAN_NO, supplier, supplier_PAN, email, password_hashed, service_area) VALUES (?,?,?,?,?,?,?,?,?)";
 
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bind_param("ssssssss", $name, $address, $phone, $PAN_NO, $supplier, $supplier_PAN, $email, $password);
+            $stmt->bind_param("sssssssss", $name, $address, $phone, $PAN_NO, $supplier, $supplier_PAN, $email, $password, $service_area);
 
             return $stmt->execute();
 
@@ -82,7 +80,7 @@
 
          public function fetchData($id) {
 
-            $sql = "SELECT name,address,phone,PAN_NO,supplier,supplier_PAN,email FROM distributor WHERE id = ?";
+            $sql = "SELECT name,address,phone,PAN_NO,supplier,supplier_PAN,email,service_area FROM distributor WHERE id = ?";
 
             $stmt = $this->conn->prepare($sql);
 
@@ -97,23 +95,58 @@
          }
 
          public function editData($id, $name, $address, $phone, $panNo, $supplierName,
-                     $supplierPanNo,$email) {
+                     $supplierPanNo,$email, $service_area) {
 
             $sql = "UPDATE distributor SET
             name = ?, address = ?, phone = ?,
             PAN_NO = ?, supplier = ?,
-            supplier_PAN = ?, email = ?  WHERE id = ?";
+            supplier_PAN = ?, email = ?, service_area = ?   WHERE id = ?";
 
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bind_param("sssssssi", $name, $address, $phone, $panNo ,$supplierName,
-                     $supplierPanNo, $email, $id);
+            $stmt->bind_param("ssssssssi", $name, $address, $phone, $panNo ,$supplierName,
+                     $supplierPanNo, $email, $service_area, $id);
 
             return $stmt->execute();
         }
 
+        public function browseAll($serviceArea) {
 
+            $sql = "SELECT
+            d.id AS distributor_id,
+            d.name AS distributor_name,  
+            j.unit AS unit,
+            j.price AS price,
+            j.quantity AS stock,
+            d.service_area AS service_area,
 
+            CASE
+            WHEN d.service_area = ? THEN 1
+            ELSE 2
+            END as priority
+
+            FROM distributor d
+            JOIN jar j ON d.id = j.distributor_id
+            ORDER BY priority ASC, j.price ASC
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("s", $serviceArea);
+
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            $distributors = [];
+
+            while($row = $result->fetch_assoc()) {
+                $distributors[] = $row;
+            }
+
+            return $distributors;
+
+        }
 
 
     }

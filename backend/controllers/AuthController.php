@@ -125,12 +125,14 @@
                 $panNo = $this->clean("panNo");
                 $supplierName = $this->clean("supplierName");
                 $supplierPanNo = $this->clean("supplierPanNo");
+                $serviceArea = $this->clean("serviceArea");
 
                 //Safe input check for distributor additional fields
                 if (
                     empty($panNo) ||
                     empty($supplierName) ||
-                    empty($supplierPanNo)
+                    empty($supplierPanNo) ||
+                    empty($serviceArea)
                 ) {
                     $this->response("error", "All fields are required");
                 }
@@ -143,7 +145,7 @@
 
                 $result = $distributorModel->register(
                     $name, $address, $phone, $panNo, $supplierName,
-                     $supplierPanNo, $email, $password);
+                     $supplierPanNo, $serviceArea, $email, $password);
                 
                 if ($result) {
                     $this->response("success", "Registration successfull");

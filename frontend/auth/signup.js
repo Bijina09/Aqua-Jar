@@ -54,6 +54,7 @@ function clearDistributorFields() {
   document.getElementById("panNo").value = "";
   document.getElementById("supplierName").value = "";
   document.getElementById("supplierPanNo").value = "";
+  document.getElementById("serviceArea").value = "";
 }
 
 function updateButton() {
@@ -180,8 +181,14 @@ function validateStep(step) {
     const panNo = document.getElementById("panNo").value.trim();
     const supplierName = document.getElementById("supplierName").value.trim();
     const supplierPAN = document.getElementById("supplierPanNo").value.trim();
+    const serviceArea = document.getElementById("serviceArea").value.trim();
+    let panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
     if (panNo === "") {
       showError("pan-error", "Pan No is required");
+      return false;
+    }
+    if (!panRegex.test(panNo)) {
+      showError("pan-error", "Please enter a valid PAN number");
       return false;
     }
     if (supplierName === "") {
@@ -192,13 +199,12 @@ function validateStep(step) {
       showError("supplier-pan-error", "Supplier Pan No is required");
       return false;
     }
-    let panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    if (!panRegex.test(panNo)) {
-      showError("pan-error", "Please enter a valid PAN number");
-      return false;
-    }
     if (!panRegex.test(supplierPAN)) {
       showError("supplier-pan-error", "Please enter a valid PAN number");
+      return false;
+    }
+    if (serviceArea === "") {
+      showError("serive-area-error", "Service Area is required");
       return false;
     }
     return true;

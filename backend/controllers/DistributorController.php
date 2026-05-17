@@ -6,7 +6,7 @@
 
     header("Content-Type: application/json");
     
-    class distributorController{
+    class DistributorController{
         
         //For repeated JSON messages
         private function response($status, $message) {
@@ -50,7 +50,8 @@
                 "panNo" => $result['PAN_NO'],
                 "supplierName" => $result['supplier'],
                 "supplierPanNo" => $result['supplier_PAN'],
-                "email" => $result['email']
+                "email" => $result['email'],
+                "serviceArea" => $result['service_area']
             ]);
 
         }
@@ -87,6 +88,7 @@
             $panNo = $this->clean("panNo");
             $supplierName = $this->clean("supplierName");
             $supplierPanNo = $this->clean("supplierPanNo");
+            $serviceArea = $this->clean("serviceArea");
 
             if (
                 empty($name) ||
@@ -95,7 +97,8 @@
                 empty($email) || 
                 empty($panNo) ||
                 empty($supplierName) ||
-                empty($supplierPanNo)
+                empty($supplierPanNo) ||
+                empty($serviceArea)
             ) {
                 $this->response("error", "Fields cannot be empty");
             }

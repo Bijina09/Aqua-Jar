@@ -41,8 +41,8 @@ document.getElementById("editbtn").addEventListener("click", (e) => {
   document.getElementById("savebtn").style.display = "block";
 });
 
-function showFormMessage(message, isSuccess) {
-  const msg = document.getElementById("form-message");
+function showFormMessage(id, message, isSuccess) {
+  const msg = document.getElementById(id);
   msg.textContent = message;
   msg.className = "form-message " + (isSuccess ? "success" : "error");
 }
@@ -61,7 +61,7 @@ document.getElementById("form").addEventListener("submit", (e) => {
 
       if (data.status === "success") {
         console.log(data.message);
-        showFormMessage(data.message, true);
+        showFormMessage("form-message", data.message, true);
 
         document
           .querySelectorAll("#form input")
@@ -69,11 +69,36 @@ document.getElementById("form").addEventListener("submit", (e) => {
 
         document.getElementById("savebtn").style.display = "none";
       } else {
-        showFormMessage(data.message, false);
+        showFormMessage("form-message", data.message, false);
       }
     })
     .catch((error) => {
       console.error(error);
-      showFormMessage("Something went wrong", false);
+      showFormMessage("form-message", "Something went wrong", false);
+    });
+});
+
+document.getElementById("postForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const form = document.getElementById("postForm");
+  // console.log([...new FormData(form)]);
+  fetch("/Aqua-Jar/backend/api/postJar.php", {
+    method: "POST",
+    body: new FormData(form),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      if (data.status === "success") {
+        console.log(data.message);
+        showFormMessage("post-message", data.message, true);
+      } else {
+        showFormMessage("post-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      showFormMessage("form-message", "Something went wrong", false);
     });
 });

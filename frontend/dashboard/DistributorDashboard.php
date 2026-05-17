@@ -41,7 +41,23 @@
             <p id="form-message" class="form-message"></p>
             <button id="editbtn" type="button">Edit Profile</button>
             <button id="savebtn" type="submit" style="display: none;">Save</button>
+
         </form>
+
+        <form id="postForm">
+            Available stock:
+            <input type="text" id="quantity" name="quantity" />
+            price:
+            <input type="text" id="price" name="price" />
+            unit:
+            <input type="text" id="unit" name="unit" /> <br>
+
+
+            <p id="post-message" class="form-message"></p>
+            <button type="submit">Post</button>
+
+        </form>
+
         <script src="distributorDashboard.js"></script>
     </body>
     </html>
