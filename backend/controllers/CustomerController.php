@@ -106,6 +106,7 @@
 
         }
 
+        //Viewing Jars only for ordering it will go to OrderController
         public function browseJars() {
 
             global $conn;
@@ -144,6 +145,10 @@
             ]);
 
         }
+
+        function myOrders(){}
+
+        function createComplaint(){}
 
 
         

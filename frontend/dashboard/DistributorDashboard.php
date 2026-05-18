@@ -58,6 +58,24 @@
 
         </form>
 
+        <h2>Available Orders</h2>
+
+        <table border="1" width="100%">
+        <thead>
+            <tr>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Location</th>
+            <th>Delivery Date and Time</th>
+            <th>Status</th>
+            <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="orderTable">
+     </tbody>
+        </table>
+            <p id="order-message" class="form-message"></p>
+
         <script src="distributorDashboard.js"></script>
     </body>
     </html>

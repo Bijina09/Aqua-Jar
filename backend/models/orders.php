@@ -35,6 +35,58 @@
 
             return $stmt->execute();
         }
+
+        function getOrders($distributorId) {
+
+            $sql = "SELECT 
+            o.id AS order_id,
+            c.name AS customer_name,
+            o.quantity AS quantity,
+            o.location AS location,
+            o.delivery_datetime AS delivery_datetime,
+            o.status AS status
+
+            FROM orders o JOIN customer c
+            ON o.customer_id = c.id AND o.distributor_id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $distributorId);
+
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            $orders = [];
+
+            while($row = $result->fetch_assoc()) {
+                $orders[] = $row;
+            }
+
+            return $orders;
+        }
+
+        function updateStatus($orderId, $orderStatus) {
+            
+            $sql = "UPDATE Orders SET 
+            status = ? WHERE id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            //Checking if prepare failed
+            if (!$stmt) {
+            return false;
+        }
+
+            $stmt->bind_param("si", $orderStatus, $orderId);
+
+            if ($stmt->execute()) {
+                return $stmt->affected_rows > 0;
+            }
+
+            return false; 
+        
+        }
     }
 
     ?>

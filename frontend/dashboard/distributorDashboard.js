@@ -32,6 +32,7 @@ function loadProfile() {
     });
 }
 loadProfile();
+loadOrders();
 
 document.getElementById("editbtn").addEventListener("click", (e) => {
   document
@@ -102,3 +103,80 @@ document.getElementById("postForm").addEventListener("submit", (e) => {
       showFormMessage("form-message", "Something went wrong", false);
     });
 });
+
+function loadOrders() {
+  fetch("/Aqua-Jar/backend/api/availableOrders.php")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("FULL RESPONSE:", data);
+      if (data.status === "success") {
+        const table = document.getElementById("orderTable");
+        data.data.forEach((item) => {
+          //Setting actionCell value based on status
+          let actionCell = "";
+          if (item.status === "pending") {
+            // Template literals (backticks ` `) in JavaScript
+            actionCell = `
+                <button onclick="updateStatus(${item.order_id}, 'accepted', this)">Accept</button>
+                <button onclick="updateStatus(${item.order_id}, 'rejected', this)">Reject</button>
+              `;
+          } else {
+            actionCell = `<span class="badge neutral">No actions</span>`;
+          }
+          // Template literals (backticks ` `) in JavaScript
+          const row = `
+          <tr>
+            <td>${item.customer_name}</td>
+            <td>${item.quantity}</td>
+            <td>${item.location}</td>
+            <td>${item.delivery_datetime}</td>
+            <td class = "status-cell"><span class="badge badge-${item.status}">${item.status}</span></td>
+            <td class = "action-cell">${actionCell}</td>
+          </tr>
+          `;
+          table.innerHTML += row;
+        });
+      } else {
+        // backend returned error (like "Unauthorized", "Empty")
+        console.error(data.message);
+        showFormMessage("jar-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      // network / server crash / invalid JSON
+      console.error("Fetch error:", error);
+
+      showFormMessage("Something went wrong while loading Orders", false);
+    });
+}
+
+function updateStatus(orderId, status, btn) {
+  fetch("/Aqua-Jar/backend/api/updateStatus.php", {
+    method: "POST",
+    body: JSON.stringify({ orderId, status }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      if (data.status === "success") {
+        console.log(data.message);
+
+        const row = btn.closest("tr");
+
+        row.querySelector(".status-cell").innerHTML =
+          `<span class="badge badge-${status}">${status}</span>`;
+
+        row.querySelector(".action-cell").innerHTML =
+          `<span class="badge neutral">No actions</span>`;
+
+        showFormMessage("order-message", data.message, true);
+      } else {
+        showFormMessage("order-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      showFormMessage("form-message", "Something went wrong", false);
+    });
+}

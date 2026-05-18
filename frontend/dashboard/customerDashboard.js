@@ -78,9 +78,6 @@ document.getElementById("form").addEventListener("submit", (e) => {
 });
 
 function loadJars() {
-  const form = document.getElementById("form");
-  console.log("I am inside loadJar");
-
   fetch("/Aqua-Jar/backend/api/browseJars.php")
     .then((res) => res.json())
     .then((data) => {

@@ -2,6 +2,8 @@
 
     require_once __DIR__ . "/../models/Distributor.php";
     require_once __DIR__ . "/../config/db.php";
+    require_once __DIR__ . "/../models/Orders.php";
+
     //controller passes it to distributorProfile
 
     header("Content-Type: application/json");
@@ -112,6 +114,43 @@
             $this->response("success", "Updated successfully");
 
         }
+
+        //Pending orders view
+        function availableOrders(){
+            global $conn;
+           
+            session_start();
+
+            //If no user_id, error so check
+            //Added role check coz same id possible between tables
+            if(!isset($_SESSION['user_id']) ||
+             $_SESSION['role'] !== "distributor"
+            ) {
+                //Don't go forgetting this everytime
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $order = new Orders($conn);
+
+            $result = $order->getOrders($user_id);
+
+            if(empty($result)) {
+                $this->response("error", "No orders available");
+            }
+
+            echo json_encode([
+                "status" => "success",
+                "data" => $result
+            ]);
+        }
+
+        function complaintsView() {}
+
+        //Loading KPIs
+        function dashboard(){}
 
  
     }

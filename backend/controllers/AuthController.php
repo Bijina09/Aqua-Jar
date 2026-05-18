@@ -61,6 +61,11 @@
             $_SESSION['role'] = $role;
             $_SESSION['name'] = $user['name'];
 
+            if($role === "distributor") {
+                $_SESSION['service_area'] = $user['service_area'];
+
+            }
+
             $this->response("success", "Login succesfull", $role);
           
         }

@@ -22,6 +22,7 @@
             exit;
         }
 
+        //Customer Side
         public function placeOrder() {
 
             global $conn;
@@ -70,6 +71,46 @@
 
         }
 
+        //Distributor Side
+        function updateStatus(){
+
+            global $conn;
+           
+            session_start();
+
+            //If no user_id error so check
+            //Same comment check customer
+            if(!isset($_SESSION['user_id']) ||
+                $_SESSION['role'] !== "distributor"
+            ) {
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $order = new Orders($conn);
+
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            $orderId = $data['orderId'];
+            $orderStatus = $data['status'];
+
+            $result = $order->updateStatus($orderId, $orderStatus);
+
+            if(!$result) {
+                $this->response("error", "Order Status update failed");
+            }
+
+            $this->response("success", "Order status updated successfully");
+
+        }
+
+        //Both sides just lisiting orders
+        function getOrders(){}
+
+        //Order Stats for dashboard
+        function getOrderStats(){}
         
 
     }
