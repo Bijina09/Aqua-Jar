@@ -106,6 +106,81 @@
 
         }
 
+        //Distributor Side
+        function assignDriver(){
+
+            global $conn;
+           
+            session_start();
+
+            //If no user_id error so check
+            //Same comment check customer
+            if(!isset($_SESSION['user_id']) ||
+                $_SESSION['role'] !== "distributor"
+            ) {
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $order = new Orders($conn);
+
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            $orderId = $data['orderId'] ?? null;
+            $driverName = $data['driverName'] ?? null;
+            $driverContact = $data['driverContact'] ?? null;
+
+            error_log(file_get_contents("php://input"));
+            //Check if empty
+            if(empty($driverName) || empty($driverContact)) {
+                $this->response("error", "All fields required");
+            }
+
+            $result = $order->assignDriver($orderId, $driverName, $driverContact);
+
+            if(!$result) {
+                $this->response("error", "Driver assigning failed");
+            }
+
+            $this->response("success", "Driver assigned successfully");
+
+        }
+
+        function markDelivered() {
+            global $conn;
+           
+            session_start();
+
+            //If no user_id error so check
+            //Same comment check customer
+            if(!isset($_SESSION['user_id']) ||
+                $_SESSION['role'] !== "distributor"
+            ) {
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $order = new Orders($conn);
+
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            $orderId = $data['orderId'];
+            $status = $data['status'];
+
+            $result = $order->markDelivered($orderId, $status);
+
+            if(!$result) {
+                $this->response("error", "Delivered at assigning failed");
+            }
+
+            $this->response("success", "Delivered at assigned successfully");
+
+        }
+
         //Both sides just lisiting orders
         function getOrders(){}
 

@@ -87,6 +87,38 @@
             return false; 
         
         }
+
+        function assignDriver($orderId, $driverName, $driverContact) {
+            
+            $sql = "UPDATE Orders SET 
+            driver_name = ?,
+            driver_contact = ?,
+            status = 'out for delivery'
+            WHERE id = ?"; 
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("ssi", $driverName, $driverContact, $orderId);
+
+            return $stmt->execute(); 
+        
+        }
+
+        function markDelivered($orderId, $status) {
+
+            $sql = "UPDATE Orders SET
+            status = ?,
+            delivered_at = current_timestamp()
+            WHERE id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("si", $status, $orderId);
+
+            return $stmt->execute();
+
+        }
+
     }
 
     ?>

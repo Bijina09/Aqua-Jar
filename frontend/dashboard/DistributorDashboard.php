@@ -76,6 +76,16 @@
         </table>
             <p id="order-message" class="form-message"></p>
 
+        <form id="driverForm" style="display:none">
+            Driver Name:
+            <input type="text" name="driverName" id="driverName">
+            Driver Contact:
+            <input type="tel" name="driverContact" id="driverContact">
+
+            <p id="driver-message" class="form-message"></p>
+            <button type="submit" id="driverbtn">Assign</button>
+            
+        </form>
         <script src="distributorDashboard.js"></script>
     </body>
     </html>

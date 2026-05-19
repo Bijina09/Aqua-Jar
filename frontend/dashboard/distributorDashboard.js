@@ -111,18 +111,24 @@ function loadOrders() {
       console.log("FULL RESPONSE:", data);
       if (data.status === "success") {
         const table = document.getElementById("orderTable");
+        table.innerHTML = "";
         data.data.forEach((item) => {
           //Setting actionCell value based on status
           let actionCell = "";
           if (item.status === "pending") {
             // Template literals (backticks ` `) in JavaScript
             actionCell = `
-                <button onclick="updateStatus(${item.order_id}, 'accepted', this)">Accept</button>
-                <button onclick="updateStatus(${item.order_id}, 'rejected', this)">Reject</button>
+                <button onclick="updateStatus(${item.order_id}, 'accepted')">Accept</button>
+                <button onclick="updateStatus(${item.order_id}, 'rejected')">Reject</button>
               `;
-          } else {
-            actionCell = `<span class="badge neutral">No actions</span>`;
+          } else if (item.status === "accepted") {
+            actionCell = `<button onclick="assignDriver(${item.order_id})">Assign Driver</button>`;
+          } else if (item.status === "out for delivery") {
+            actionCell = `<button onclick="markDelivered(${item.order_id}, 'delivered')">Mark Delivered</button>`;
+          } else if (item.status === "delivered") {
+            actionCell = `<span class="badge badge-success">Completed</span>`;
           }
+
           // Template literals (backticks ` `) in JavaScript
           const row = `
           <tr>
@@ -150,7 +156,7 @@ function loadOrders() {
     });
 }
 
-function updateStatus(orderId, status, btn) {
+function updateStatus(orderId, status) {
   fetch("/Aqua-Jar/backend/api/updateStatus.php", {
     method: "POST",
     body: JSON.stringify({ orderId, status }),
@@ -161,18 +167,83 @@ function updateStatus(orderId, status, btn) {
 
       if (data.status === "success") {
         console.log(data.message);
-
-        const row = btn.closest("tr");
-
-        row.querySelector(".status-cell").innerHTML =
-          `<span class="badge badge-${status}">${status}</span>`;
-
-        row.querySelector(".action-cell").innerHTML =
-          `<span class="badge neutral">No actions</span>`;
-
         showFormMessage("order-message", data.message, true);
+        loadOrders();
       } else {
         showFormMessage("order-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      showFormMessage("form-message", "Something went wrong", false);
+    });
+}
+
+//Global to let the onsubmit access orderId
+let selectedOrderId = null;
+
+function assignDriver(orderId) {
+  selectedOrderId = orderId;
+  document.getElementById("driverForm").style.display = "block";
+  const form = document.getElementById("driverForm");
+}
+
+//Driver Form submition logic
+document.getElementById("driverForm").onsubmit = (e) => {
+  e.preventDefault();
+
+  const driverName = document.getElementById("driverName").value;
+  const driverContact = document.getElementById("driverContact").value;
+
+  fetch("/Aqua-Jar/backend/api/assignDriver.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      orderId: selectedOrderId,
+      driverName,
+      driverContact,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      if (data.status === "success") {
+        console.log(data.message);
+        showFormMessage("driver-message", data.message, true);
+        e.target.reset();
+        e.target.style.display = "none";
+        loadOrders(); // IMPORTANT
+      } else {
+        showFormMessage("driver-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      showFormMessage("form-message", "Something went wrong", false);
+    });
+};
+
+function markDelivered(orderId, status) {
+  fetch("/Aqua-Jar/backend/api/markDelivered.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ orderId, status }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      if (data.status === "success") {
+        console.log(data.message);
+        showFormMessage("driver-message", data.message, true);
+        loadOrders();
+      } else {
+        showFormMessage("driver-message", data.message, false);
       }
     })
     .catch((error) => {
