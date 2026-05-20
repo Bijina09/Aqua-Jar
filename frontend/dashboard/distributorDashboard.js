@@ -1,3 +1,11 @@
+//Used by other functions to display UI message
+function showFormMessage(id, message, isSuccess) {
+  const msg = document.getElementById(id);
+  msg.textContent = message;
+  msg.className = "form-message " + (isSuccess ? "success" : "error");
+}
+
+//Function for loading the Distributor's Profile
 function loadProfile() {
   const form = document.getElementById("form");
 
@@ -28,12 +36,15 @@ function loadProfile() {
       // network / server crash / invalid JSON
       console.error("Fetch error:", error);
 
-      showFormMessage("Something went wrong while loading profile", false);
+      showFormMessage(
+        "form-message",
+        "Something went wrong while loading profile",
+        false,
+      );
     });
 }
-loadProfile();
-loadOrders();
 
+//Handling edit button
 document.getElementById("editbtn").addEventListener("click", (e) => {
   document
     .querySelectorAll("#form input")
@@ -42,12 +53,7 @@ document.getElementById("editbtn").addEventListener("click", (e) => {
   document.getElementById("savebtn").style.display = "block";
 });
 
-function showFormMessage(id, message, isSuccess) {
-  const msg = document.getElementById(id);
-  msg.textContent = message;
-  msg.className = "form-message " + (isSuccess ? "success" : "error");
-}
-
+//Handling submit form after editing
 document.getElementById("form").addEventListener("submit", (e) => {
   e.preventDefault();
   const form = document.getElementById("form");
@@ -79,6 +85,7 @@ document.getElementById("form").addEventListener("submit", (e) => {
     });
 });
 
+//Handling the Jar posting
 document.getElementById("postForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const form = document.getElementById("postForm");
@@ -100,18 +107,21 @@ document.getElementById("postForm").addEventListener("submit", (e) => {
     })
     .catch((error) => {
       console.error(error);
-      showFormMessage("form-message", "Something went wrong", false);
+      showFormMessage("post-message", "Something went wrong", false);
     });
 });
 
+//Function for loading the Orders from the Customer
 function loadOrders() {
   fetch("/Aqua-Jar/backend/api/availableOrders.php")
     .then((res) => res.json())
     .then((data) => {
       console.log("FULL RESPONSE:", data);
+
       if (data.status === "success") {
         const table = document.getElementById("orderTable");
-        table.innerHTML = "";
+        table.innerHTML = ""; //Important to clear
+
         data.data.forEach((item) => {
           //Setting actionCell value based on status
           let actionCell = "";
@@ -145,17 +155,22 @@ function loadOrders() {
       } else {
         // backend returned error (like "Unauthorized", "Empty")
         console.error(data.message);
-        showFormMessage("jar-message", data.message, false);
+        showFormMessage("order-message", data.message, false);
       }
     })
     .catch((error) => {
       // network / server crash / invalid JSON
       console.error("Fetch error:", error);
 
-      showFormMessage("Something went wrong while loading Orders", false);
+      showFormMessage(
+        "order-message",
+        "Something went wrong while loading Orders",
+        false,
+      );
     });
 }
 
+//Function for updating the status (calling API)
 function updateStatus(orderId, status) {
   fetch("/Aqua-Jar/backend/api/updateStatus.php", {
     method: "POST",
@@ -175,13 +190,14 @@ function updateStatus(orderId, status) {
     })
     .catch((error) => {
       console.error(error);
-      showFormMessage("form-message", "Something went wrong", false);
+      showFormMessage("order-message", "Something went wrong", false);
     });
 }
 
 //Global to let the onsubmit access orderId
 let selectedOrderId = null;
 
+//Assigning the Driver details
 function assignDriver(orderId) {
   selectedOrderId = orderId;
   document.getElementById("driverForm").style.display = "block";
@@ -222,10 +238,11 @@ document.getElementById("driverForm").onsubmit = (e) => {
     })
     .catch((error) => {
       console.error(error);
-      showFormMessage("form-message", "Something went wrong", false);
+      showFormMessage("driver-message", "Something went wrong", false);
     });
 };
 
+//For Marking status delivered and adding delivered_at (time)
 function markDelivered(orderId, status) {
   fetch("/Aqua-Jar/backend/api/markDelivered.php", {
     method: "POST",
@@ -248,6 +265,17 @@ function markDelivered(orderId, status) {
     })
     .catch((error) => {
       console.error(error);
-      showFormMessage("form-message", "Something went wrong", false);
+      showFormMessage("driver-message", "Something went wrong", false);
     });
 }
+
+//Main init function
+function initDistributorDashboard() {
+  loadProfile();
+  loadOrders();
+
+  //Five min auto reload (polling)
+  setInterval(loadOrders(), 5000);
+}
+
+document.addEventListener("DOMContentLoaded", initDistributorDashboard());

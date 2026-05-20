@@ -3,6 +3,7 @@
     require_once __DIR__ . "/../models/Customer.php";
     require_once __DIR__ . "/../config/db.php";
     require_once __DIR__ . "/../models/Distributor.php";
+    require_once __DIR__ . "/../models/Orders.php";
 
     //controller passes it to customerProfile
 
@@ -146,7 +147,38 @@
 
         }
 
-        function myOrders(){}
+        function myOrders(){
+
+            global $conn;
+           
+            session_start();
+
+            //If no user_id, error so check
+            //Added role check coz same id possible between tables
+            if(!isset($_SESSION['user_id']) ||
+             $_SESSION['role'] !== "customer"
+            ) {
+                //Don't go forgetting this everytime
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $order = new Orders($conn);
+
+            $result = $order->myOrders($user_id);
+
+            if(empty($result)) {
+                $this->response("error", "No ordes available");
+            }
+
+            echo json_encode([
+                "status" => "success",
+                "data" => $result
+            ]);
+
+        }
 
         function createComplaint(){}
 

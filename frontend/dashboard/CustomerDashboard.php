@@ -78,6 +78,26 @@
             <p id="order-message" class="form-message"></p>
     
         </form>
+
+        <h2>My Orders</h2>
+
+        <table border="1" width="100%">
+        <thead>
+            <tr>
+            <th>Distributor</th>
+            <th>Quantity</th>
+            <!-- <th>Price</th>
+            <th>Unit</th> -->
+            <th>Order Status</th>
+            <th>Driver Name</th>
+            <th>Driver Contact</th>
+            
+            </tr>
+        </thead>
+        <tbody id="myOrderTable">
+     </tbody>
+        </table>
+            <p id="myOrder-message" class="form-message"></p>
         <script src="customerDashboard.js"></script>
     </body>
     </html>

@@ -1,3 +1,11 @@
+//Like a helper function to show messages
+function showFormMessage(id, message, isSuccess) {
+  const msg = document.getElementById(id);
+  msg.textContent = message;
+  msg.className = "form-message " + (isSuccess ? "success" : "error");
+}
+
+//This is where is load Customer Profile
 function loadProfile() {
   const form = document.getElementById("form");
 
@@ -25,13 +33,15 @@ function loadProfile() {
       // network / server crash / invalid JSON
       console.error("Fetch error:", error);
 
-      showFormMessage("Something went wrong while loading profile", false);
+      showFormMessage(
+        "form-message",
+        "Something went wrong while loading profile",
+        false,
+      );
     });
 }
 
-loadProfile();
-loadJars();
-
+//Handling editing profile
 document.getElementById("editbtn").addEventListener("click", (e) => {
   document
     .querySelectorAll("#form input")
@@ -40,12 +50,7 @@ document.getElementById("editbtn").addEventListener("click", (e) => {
   document.getElementById("savebtn").style.display = "block";
 });
 
-function showFormMessage(id, message, isSuccess) {
-  const msg = document.getElementById(id);
-  msg.textContent = message;
-  msg.className = "form-message " + (isSuccess ? "success" : "error");
-}
-
+//Handling the update submit button
 document.getElementById("form").addEventListener("submit", (e) => {
   e.preventDefault();
   const form = document.getElementById("form");
@@ -73,10 +78,11 @@ document.getElementById("form").addEventListener("submit", (e) => {
     })
     .catch((error) => {
       console.error(error);
-      showFormMessage("Something went wrong", false);
+      showFormMessage("form-message", "Something went wrong", false);
     });
 });
 
+//Function for loading the available jars
 function loadJars() {
   fetch("/Aqua-Jar/backend/api/browseJars.php")
     .then((res) => res.json())
@@ -84,6 +90,9 @@ function loadJars() {
       console.log("FULL RESPONSE:", data);
       if (data.status === "success") {
         const table = document.getElementById("jarTable");
+
+        //Important for clearing old rows each time refreshing
+        table.innerHTML = "";
         data.data.forEach((item) => {
           // Template literals (backticks ` `) in JavaScript
           const row = `
@@ -108,13 +117,21 @@ function loadJars() {
       // network / server crash / invalid JSON
       console.error("Fetch error:", error);
 
-      showFormMessage("Something went wrong while loading Jar posts", false);
+      showFormMessage(
+        "jar-message",
+        "Something went wrong while loading Jar posts",
+        false,
+      );
     });
 }
+
+//Function for opening the form to place the order
 function openForm(distributorId) {
   document.getElementById("orderForm").style.display = "block";
   document.getElementById("distributor_id").value = distributorId;
 }
+
+//Handling what happens after the order form is submitted
 document.getElementById("orderForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const form = document.getElementById("orderForm");
@@ -137,6 +154,71 @@ document.getElementById("orderForm").addEventListener("submit", (e) => {
       // network / server crash / invalid JSON
       console.error("Fetch error:", error);
 
-      showFormMessage("Something went wrong while ordering", false);
+      showFormMessage(
+        "order-message",
+        "Something went wrong while ordering",
+        false,
+      );
     });
 });
+
+//Function for loading Customer's orders
+function loadMyOrders() {
+  fetch("/Aqua-Jar/backend/api/myOrders.php")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("FULL RESPONSE:", data);
+
+      if (data.status === "success") {
+        const table = document.getElementById("myOrderTable");
+
+        table.innerHTML = ""; // IMPORTANT
+
+        data.data.forEach((item) => {
+          // Template literals (backticks ` `) in JavaScript
+
+          const row = `
+            <tr>
+              <td>${item.distributor_name}</td>
+              <td>${item.quantity}</td>
+              <td>${item.status}</td>
+              <td>${item.driver_name || "-"}</td>
+              <td>${item.driver_contact || "-"}</td>
+            </tr>
+            `;
+
+          table.innerHTML += row;
+        });
+      } else {
+        // backend returned error (like "Unauthorized", "Empty")
+        console.error(data.message);
+        showFormMessage("myOrder-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      // network / server crash / invalid JSON
+      console.error("Fetch error:", error);
+
+      showFormMessage(
+        "myOrder-message",
+        "Something went wrong while loading order details",
+        false,
+      );
+    });
+}
+
+//Main init function
+function initCustomerDashboard() {
+  loadProfile();
+  loadJars();
+  loadMyOrders();
+
+  //Refreshing through polling every 5 mins
+  setInterval(() => {
+    loadJars();
+    loadMyOrders();
+  }, 5000);
+}
+
+//Calling the init function
+document.addEventListener("DOMContentLoaded", initCustomerDashboard());

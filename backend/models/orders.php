@@ -119,6 +119,40 @@
 
         }
 
+        function myOrders($customerId) {
+
+            $sql = "SELECT
+            d.name AS distributor_name,
+            o.quantity AS quantity,
+            o.status AS status,
+            o.driver_name AS driver_name,
+            o.driver_contact AS driver_contact
+
+            FROM distributor d JOIN orders o
+            on d.id = o.distributor_id
+
+            WHERE o.customer_id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $customerId);
+
+            //Don't go forgetting this
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            //When many lines used array
+            $orders = [];
+
+            while($row = $result->fetch_assoc()) {
+                $orders[] = $row;
+            }
+
+            return $orders;
+
+        }
+
     }
 
     ?>
