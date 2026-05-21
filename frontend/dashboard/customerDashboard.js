@@ -102,7 +102,7 @@ function loadJars() {
             <td>${item.unit}</td>
             <td>${item.stock}</td>
             <td>${item.service_area}</td>
-            <td button onclick="openForm(${item.distributor_id})">Order</td>
+            <td button onclick="openForm(${item.distributor_id},${item.jar_id})">Order</td>
           </tr>
           `;
           table.innerHTML += row;
@@ -126,9 +126,10 @@ function loadJars() {
 }
 
 //Function for opening the form to place the order
-function openForm(distributorId) {
+function openForm(distributorId, jarId) {
   document.getElementById("orderForm").style.display = "block";
   document.getElementById("distributor_id").value = distributorId;
+  document.getElementById("jar_id").value = jarId; //To know which jar
 }
 
 //Handling what happens after the order form is submitted
@@ -181,6 +182,9 @@ function loadMyOrders() {
             <tr>
               <td>${item.distributor_name}</td>
               <td>${item.quantity}</td>
+              <td>${item.unit_price}</td>
+              <td>${item.unit}</td>
+              <td>${item.total_price}</td>
               <td>${item.status}</td>
               <td>${item.driver_name || "-"}</td>
               <td>${item.driver_contact || "-"}</td>

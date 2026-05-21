@@ -115,6 +115,7 @@
             $sql = "SELECT
             d.id AS distributor_id,
             d.name AS distributor_name,  
+            j.id AS jar_id,
             j.unit AS unit,
             j.price AS price,
             j.quantity AS stock,

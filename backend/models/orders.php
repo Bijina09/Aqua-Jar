@@ -15,22 +15,43 @@
             $location,
             $quantity,
             $customerId,
-            $distributorId
+            $distributorId,
+            $jarId
         ) {
 
+            $sql = "SELECT price from jar WHERE id=?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $jarId);
+
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            $jar = $result->fetch_assoc();
+
+            $unitPrice = $jar['price'];
+
+            //Calculaing the total price
+            $totalPrice = $unitPrice * $quantity;
+
             $sql = "INSERT INTO orders
-            (delivery_datetime, location, quantity, customer_id, distributor_id)
-            VALUES (?, ?, ?, ?, ?)";
+            (delivery_datetime, location, quantity, customer_id, distributor_id, jar_id, unit_price, total_price)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $this->conn->prepare($sql);
 
             $stmt->bind_param(
-                "ssiii",
+                "ssiiiidd",
                 $deliveryDatetime,
                 $location,
                 $quantity,
                 $customerId,
-                $distributorId
+                $distributorId, 
+                $jarId,
+                $unitPrice,
+                $totalPrice
             );
 
             return $stmt->execute();
@@ -124,12 +145,16 @@
             $sql = "SELECT
             d.name AS distributor_name,
             o.quantity AS quantity,
+            o.unit_price AS unit_price,
+            j.unit AS unit,
+            o.total_price AS total_price,
             o.status AS status,
             o.driver_name AS driver_name,
             o.driver_contact AS driver_contact
 
             FROM distributor d JOIN orders o
-            on d.id = o.distributor_id
+            ON d.id = o.distributor_id
+            JOIN jar j ON j.id = o.jar_id
 
             WHERE o.customer_id = ?";
 

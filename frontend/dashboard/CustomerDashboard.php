@@ -17,6 +17,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>customerDashboard</title>
+        <!-- <link rel="stylesheet" href="customerDashboard.css"> -->
     </head>
     <body>
         <!-- ?= means ?php echo -->
@@ -59,7 +60,7 @@
 
         <form id="orderForm" style="display:none;">
             <input type="hidden" id="distributor_id" name="distributor_id">
-
+            <input type="hidden" id="jar_id" name="jar_id">
             Quantity:
             <input type="number" id="quantity" name="quantity">
 
@@ -86,8 +87,9 @@
             <tr>
             <th>Distributor</th>
             <th>Quantity</th>
-            <!-- <th>Price</th>
-            <th>Unit</th> -->
+            <th>Price</th>
+            <th>Unit</th>
+            <th>Total Price</th>
             <th>Order Status</th>
             <th>Driver Name</th>
             <th>Driver Contact</th>

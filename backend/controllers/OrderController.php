@@ -46,13 +46,16 @@
             $location = $this->clean("location");
             $quantity = $this->clean("quantity");
             $distributorId = $this->clean("distributor_id");
+            $jarId = $this->clean("jar_id");
 
             //Safe input check
             if (
                 empty($deliveryDatetime) ||
                 empty($location) ||
                 empty($quantity) ||
-                empty($distributorId)
+                empty($distributorId) ||
+                empty($jarId)
+
             ) {
                $this->response("error", "All fields are required");
             }
@@ -61,7 +64,8 @@
             $location,
             $quantity,
             $user_id,
-            $distributorId);
+            $distributorId,
+            $jarId);
 
             if(!$result) {
                 $this->response("error", "Order placement failed");
