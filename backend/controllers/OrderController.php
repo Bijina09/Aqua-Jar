@@ -185,6 +185,40 @@
 
         }
 
+        //Customer Side
+        public function ordersHistory() {
+
+            global $conn;
+           
+            session_start();
+
+            //If no user_id error so check
+            //Same comment check customer
+            if(!isset($_SESSION['user_id']) ||
+                $_SESSION['role'] !== "customer"
+            ) {
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $order = new Orders($conn);
+
+            $result = $order->ordersHistory($user_id);
+
+            if(!$result) {
+                $this->response("error", "No Order History");
+            }
+
+            echo json_encode([
+                "status" => "success",
+                "data" => $result
+            ]);
+
+        }
+
+        
         //Both sides just lisiting orders
         function getOrders(){}
 

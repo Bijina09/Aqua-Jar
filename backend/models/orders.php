@@ -156,7 +156,47 @@
             ON d.id = o.distributor_id
             JOIN jar j ON j.id = o.jar_id
 
-            WHERE o.customer_id = ?";
+            WHERE o.customer_id = ?
+            AND o.status != 'delivered'";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $customerId);
+
+            //Don't go forgetting this
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            //When many lines used array
+            $orders = [];
+
+            while($row = $result->fetch_assoc()) {
+                $orders[] = $row;
+            }
+
+            return $orders;
+
+        }
+
+        function ordersHistory($customerId) {
+
+            $sql = "SELECT
+            d.name AS distributor_name,
+            o.id AS order_id,
+            o.quantity AS quantity,
+            o.unit_price AS unit_price,
+            j.unit AS unit,
+            o.total_price AS total_price,
+            o.status AS status,
+            o.driver_name AS driver_name
+
+            FROM distributor d JOIN orders o
+            ON d.id = o.distributor_id
+            JOIN jar j ON j.id = o.jar_id
+
+            WHERE o.customer_id = ?
+            AND o.status = 'delivered'";
 
             $stmt = $this->conn->prepare($sql);
 

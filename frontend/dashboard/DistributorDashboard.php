@@ -17,6 +17,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>DistributorDashboard</title>
+        <link rel="stylesheet" href="distributorDashboard.css">
     </head>
     <body>
         <!-- ?= means ?php echo -->
@@ -85,6 +86,32 @@
             <p id="driver-message" class="form-message"></p>
             <button type="submit" id="driverbtn">Assign</button>
             
+        </form>
+
+        <h2>Complaints</h2>
+
+        <table border="1" width="100%">
+        <thead>
+            <tr>
+            <th>Customer ID</th>
+            <th>Customer</th>
+            <th>Order ID</th>
+            <th>Message</th>
+            <th>Image</th>
+            <th>Status</th>
+            <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="complaintsTable">
+     </tbody>
+        </table>
+            <p id="complaintsDistributor-message" class="form-message"></p>
+
+            <form id="resolveForm" style="display:none">
+            <label for="message">Reply:</label>
+            <textarea id="reply" name="reply" row="4" cols="50" placeholder="Type your reply here..."></textarea>
+            <button type="submit" id="replybtn">Resolve</button>
+             <p id="resolve-message" class="form-message"></p>
         </form>
         <script src="distributorDashboard.js"></script>
     </body>

@@ -93,6 +93,7 @@
             <th>Order Status</th>
             <th>Driver Name</th>
             <th>Driver Contact</th>
+
             
             </tr>
         </thead>
@@ -100,6 +101,41 @@
      </tbody>
         </table>
             <p id="myOrder-message" class="form-message"></p>
+
+        <h2>Order History</h2>
+
+        <table border="1" width="100%">
+        <thead>
+            <tr>
+            <th>Distributor</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Unit</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Driver Name</th>  
+            <th>Complaint</th>
+            </tr>
+        </thead>
+        <tbody id="orderHistoryTable">
+     </tbody>
+        </table>
+            <p id="orderHistory-message" class="form-message"></p>
+
+        <form id="complaintForm" style="display:none;" enctype="multipart/form-data">
+            <input type="hidden" id="order_id" name="order_id">
+            
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" row="4" cols="50" placeholder="Type your complaint here..."></textarea>
+
+            <label for="image">Choose a photo:</label>
+            <input type="file" id="image" name="image" accept="image/*">
+
+            <button type="submit">Submit Complaint</button>
+
+            <p id="complaint-message" class="form-message"></p>
+    
+        </form>        
         <script src="customerDashboard.js"></script>
     </body>
     </html>

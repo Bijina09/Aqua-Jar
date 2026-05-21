@@ -211,16 +211,102 @@ function loadMyOrders() {
     });
 }
 
+//Function for loading Customer's orders history
+function loadOrdersHistory() {
+  fetch("/Aqua-Jar/backend/api/ordersHistory.php")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("FULL RESPONSE:", data);
+
+      if (data.status === "success") {
+        const table = document.getElementById("orderHistoryTable");
+
+        table.innerHTML = ""; // IMPORTANT
+
+        data.data.forEach((item) => {
+          // Template literals (backticks ` `) in JavaScript
+
+          const row = `
+            <tr>
+              <td>${item.distributor_name}</td>
+              <td>${item.quantity}</td>
+              <td>${item.unit_price}</td>
+              <td>${item.unit}</td>
+              <td>${item.total_price}</td>
+              <td>${item.status}</td>
+              <td>${item.driver_name}</td>
+              <td><button onclick="openComplaintForm(${item.order_id})">Raise Complaint</td>
+            </tr>
+            `;
+
+          table.innerHTML += row;
+        });
+      } else {
+        // backend returned error (like "Unauthorized", "Empty")
+        console.error(data.message);
+        showFormMessage("orderHistory-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      // network / server crash / invalid JSON
+      console.error("Fetch error:", error);
+
+      showFormMessage(
+        "orderHistory-message",
+        "Something went wrong while loading order history",
+        false,
+      );
+    });
+}
+
+function openComplaintForm(order_id) {
+  document.getElementById("complaintForm").style.display = "block";
+  document.getElementById("order_id").value = order_id;
+}
+
+//Handling what happens after the order form is submitted
+document.getElementById("complaintForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const form = document.getElementById("complaintForm");
+
+  fetch("/Aqua-Jar/backend/api/raiseComplaint.php", {
+    method: "POST",
+    body: new FormData(form),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      if (data.status === "success") {
+        showFormMessage("complaint-message", data.message, true);
+      } else {
+        showFormMessage("complaint-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      // network / server crash / invalid JSON
+      console.error("Fetch error:", error);
+
+      showFormMessage(
+        "complaint-message",
+        "Something went wrong while raising complaint",
+        false,
+      );
+    });
+});
+
 //Main init function
 function initCustomerDashboard() {
   loadProfile();
   loadJars();
   loadMyOrders();
+  loadOrdersHistory();
 
   //Refreshing through polling every 5 mins
   setInterval(() => {
     loadJars();
     loadMyOrders();
+    loadOrdersHistory();
   }, 5000);
 }
 
