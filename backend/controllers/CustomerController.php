@@ -4,6 +4,7 @@
     require_once __DIR__ . "/../config/db.php";
     require_once __DIR__ . "/../models/Distributor.php";
     require_once __DIR__ . "/../models/Orders.php";
+    require_once __DIR__ . "/../models/Complaints.php";
 
     //controller passes it to customerProfile
 
@@ -183,6 +184,43 @@
         function createComplaint(){}
 
 
+        //Loading stats
+        function getDashboardStats(){
+            global $conn;
+           
+            session_start();
+
+            //If no user_id, error so check
+            //Added role check coz same id possible between tables
+            if(!isset($_SESSION['user_id']) ||
+             $_SESSION['role'] !== "customer"
+            ) {
+                //Don't go forgetting this everytime
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $order = new Orders($conn);
+            $complaints = new Complaints($conn);
+
+            $orders_result = $order->getCustomerOrders($user_id);
+            $open_complaints = $complaints->getCustomerOpenComplaints($user_id);
+
+
+            if(empty($orders_result)|| empty($open_complaints)) {
+                $this->response("error", "No stats available");
+            }
+
+            echo json_encode([
+                "status" => "success",
+                "total_orders" => (int)$orders_result['total_orders'] ?? 0,
+                "arriving" => (int)$orders_result['arriving'] ?? 0,
+                "delivered" => (int)$orders_result['delivered'] ?? 0,
+                "open_complaints" => (int)$open_complaints['open_complaints'] ?? 0,
+            ]);
+        }
         
 
         

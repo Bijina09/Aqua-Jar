@@ -83,10 +83,10 @@ loginForm.addEventListener("submit", (e) => {
         if (data.role === "customer") {
           console.log("Redirecting customer...");
           window.location.href =
-            "/Aqua-Jar/frontend/dashboard/CustomerDashboard.php";
+            "/Aqua-Jar/frontend/dashboard/customer/dashboard.php";
         } else if (data.role === "distributor") {
           window.location.href =
-            "/Aqua-Jar/frontend/dashboard/DistributorDashboard.php";
+            "/Aqua-Jar/frontend/dashboard/distributor/dashboard.php";
         }
       } else {
         showFormMessage(data.message, false);

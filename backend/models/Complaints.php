@@ -52,7 +52,6 @@
         public function viewComplaints($user_id) {
 
             $sql = "SELECT 
-            co.customer_id AS customer_id,
             c.name AS customer_name,
             co.order_id AS order_id,
             co.message AS message,
@@ -96,6 +95,46 @@
 
             return $stmt->execute();
 
+
+        }
+
+        //Distributor Dashboard
+        public function getOpenComplaints($distributorId) {
+
+            $sql = "SELECT SUM(id) AS open_complaints
+            FROM complaints
+            WHERE distributor_id = ? AND status = 'OPEN'";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $distributorId);
+
+            //Don't go forgetting this
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            return $result->fetch_assoc();
+
+        }
+
+        //Customer Dashboard
+        public function getCustomerOpenComplaints($customerId) {
+
+            $sql = "SELECT SUM(id) AS open_complaints
+            FROM complaints
+            WHERE customer_id = ? AND status = 'OPEN'";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $customerId);
+
+            //Don't go forgetting this
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            return $result->fetch_assoc();
 
         }
     }

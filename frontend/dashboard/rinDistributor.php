@@ -1,16 +1,16 @@
-<?php
+<!-- <?php
 
-    session_start();
-    if(
-        !isset($_SESSION['user_id']) ||
-        $_SESSION['role'] !== "distributor"
+    // session_start();
+    // if(
+    //     !isset($_SESSION['user_id']) ||
+    //     $_SESSION['role'] !== "distributor"
         
-    ) {
-        header("Location: /Aqua-Jar/frontend/auth/login.html");
-        exit;
-    }
+    // ) {
+    //     header("Location: /Aqua-Jar/frontend/auth/login.html");
+    //     exit;
+    // }
 
-?>
+?> -->
 <!doctype html>
 <html lang="en">
   <head>

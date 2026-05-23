@@ -218,6 +218,70 @@
 
         }
 
+        //Distributor Dashboard
+        public function getTotalOrders($distributorId) {
+
+            //COALESCE returns 0 instead of null
+            $sql = "SELECT COUNT(id) AS total_orders,
+            COALESCE(SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END)) AS pending
+            FROM orders WHERE distributor_id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $distributorId);
+
+            //Don't go forgetting this
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            return $result->fetch_assoc();
+
+        }
+
+        //Getting recent Orders for distributor
+        public function getRecentOrders($distributorId, $limit = 3) {
+            $sql = "SELECT
+            c.name AS customer_name,
+            o.created_at AS created_at
+
+            FROM orders o JOIN customer c
+            ON c.id = o.customer_id
+            WHERE o.distributor_id = ? 
+            ORDER BY o.id DESC 
+            LIMIT ?";
+    
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("ii", $distributorId, $limit);
+            $stmt->execute();
+            
+            $result = $stmt->get_result();
+            //Does the same task as while loop and array
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+
+        //Customer Dashboard
+        public function getCustomerOrders($customerId) {
+
+            //COALESCE returns 0 instead of null
+            $sql = "SELECT COUNT(id) AS total_orders,
+            COALESCE(SUM(CASE WHEN status = 'out for delivery' THEN 1 ELSE 0 END)) AS arriving,
+            COALESCE(SUM(CASE WHEN status = 'delivered' THEN 1 ELSE 0 END)) AS delivered
+            FROM orders WHERE customer_id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $customerId);
+
+            //Don't go forgetting this
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            return $result->fetch_assoc();
+
+        }
+
     }
 
     ?>

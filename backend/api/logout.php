@@ -1,12 +1,12 @@
 <?php 
+    header("Content-Type: application/json");
+
     session_start();
     session_destroy();
 
-    header("Content-Type: application/json");
-
     echo json_encode([
-        "status" => "succcess",
+        "status" => "success",
         "message" => "Logout successfull"
     ]);
-    exit;
+
 ?>

@@ -4,6 +4,77 @@ function showFormMessage(id, message, isSuccess) {
   msg.textContent = message;
   msg.className = "form-message " + (isSuccess ? "success" : "error");
 }
+function loadDashboardStats() {
+  const distributorId = localStorage.getItem("distributor_id");
+
+  fetch(`/Aqua-Jar/backend/api/distributor/dashboard.php`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: distributorId }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      if (data.status === "success") {
+        document.getElementById("total-orders").textContent = data.total_orders;
+        document.getElementById("pending-orders").textContent =
+          data.pending_orders;
+        document.getElementById("total-jars").textContent = data.total_jars;
+        document.getElementById("open-complaints").textContent =
+          data.open_complaints;
+      } else {
+        console.error(data.message);
+      }
+    })
+    .catch((error) => console.error("Fetch error:", error));
+}
+
+// Function for loading Recent Orders Activity
+function loadActivityFeed() {
+  const distributorId = localStorage.getItem("distributor_id");
+
+  fetch(`/Aqua-Jar/backend/api/distributor/activity.php`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: distributorId }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("FULL RESPONSE:", data);
+
+      if (data.status === "success") {
+        const feed = document.getElementById("activityFeed");
+        feed.innerHTML = ""; // Clear existing
+
+        data.orders.forEach((item) => {
+          // Template literal
+          const activityItem = `
+            <div class="activity-item">
+              <div class="icon blue">📦</div>
+              <div class="text">
+                <div class="title">New Order</div>
+                <div class="desc">Order received from ${item.customer_name}</div>
+              </div>
+              <div class="time">recent</div>
+            </div>
+          `;
+          feed.innerHTML += activityItem;
+        });
+      } else {
+        console.error(data.message);
+        showFormMessage("activity-message", data.message, false);
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      showFormMessage("activity-message", "Something went wrong", false);
+    });
+}
 
 //Function for loading the Distributor's Profile
 function loadProfile() {
@@ -364,13 +435,14 @@ document.getElementById("resolveForm").onsubmit = (e) => {
 
 //Main init function
 function initDistributorDashboard() {
+  loadDashboardStats();
   loadProfile();
   loadOrders();
   viewComplaints();
 
   //Five min auto reload (polling)
   setInterval(() => {
-    (loadOrders(), viewComplaints());
+    (loadDashboardStats(), loadOrders(), viewComplaints());
   }, 5000);
 }
 
