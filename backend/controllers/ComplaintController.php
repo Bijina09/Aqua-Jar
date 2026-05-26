@@ -158,5 +158,37 @@
           $this->response("success", "Complaint resolved successfully");
 
         }
+
+        public function getComplaintStatus() {
+
+            global $conn;
+           
+            session_start();
+
+            //If no user_id error so check
+            //Same comment check customer
+            if(!isset($_SESSION['user_id']) ||
+                $_SESSION['role'] !== "customer"
+            ) {
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $complaint = new Complaints($conn);
+
+            $result = $complaint->getComplaintStatus($user_id);
+
+            if(empty($result)) {
+                $this->response("error", "Complaints status fetch failed");
+            }
+
+           echo json_encode([
+            "status" => "success",
+            "data" => $result 
+           ]);
+
+        }
     }
 ?>

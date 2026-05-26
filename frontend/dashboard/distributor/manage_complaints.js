@@ -27,7 +27,13 @@ function viewComplaints() {
             <td>${item.customer_name}</td>
             <td>${item.order_id}</td>
             <td>${item.message}</td>
-            <td><img src="${item.image}" alt="jar_image" class="jar-img""/></td>
+            <td>
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="jar_image" class="jar-img"/>`
+                  : `<span>No Image</span>`
+              }
+            </td>
             <td class = "status-cell"><span class="badge badge-${item.status}">${item.status}</span></td>
             <td class = "action-cell">${actionCell}</td>
           </tr>
@@ -79,7 +85,6 @@ document.getElementById("resolveForm").onsubmit = (e) => {
       if (data.status === "success") {
         console.log(data.message);
         showFormMessage("resolve-message", data.message, true);
-        loadOrders();
       } else {
         showFormMessage("resolve-message", data.message, false);
       }

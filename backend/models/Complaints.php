@@ -86,7 +86,8 @@
         public function resolveComplaint($complaint_id, $reply) {
 
             $sql = "UPDATE complaints SET
-            reply = ?, status = 'resolved'
+            reply = ?, status = 'resolved',
+            resolved_at = current_timestamp()
             WHERE id = ?";
 
             $stmt = $this->conn->prepare($sql);
@@ -135,6 +136,36 @@
             $result = $stmt->get_result();
 
             return $result->fetch_assoc();
+
+        }
+
+        public function getComplaintStatus($customerId) {
+
+            $sql = "SELECT 
+            d.name AS distributor_name,
+            c.order_id AS order_id,
+            c.message AS message,
+            c.image AS image,
+            c.reply AS reply,
+            c.status AS status,
+            c.created_at AS submitted_at,
+            c.resolved_at AS resolved_at
+
+            FROM complaints c JOIN
+            distributor d ON c.distributor_id = d.id
+            WHERE customer_id = ?";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $customerId);
+
+            //Don't go forgetting this
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            //Same task as loop
+            return $result->fetch_all(MYSQLI_ASSOC);
 
         }
     }

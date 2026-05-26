@@ -113,7 +113,37 @@ function openForm(distributorId, jarId) {
 //Handling what happens after the order form is submitted
 document.getElementById("orderForm").addEventListener("submit", (e) => {
   e.preventDefault();
+  //Get form elements
+  const quantityValue = document.getElementById("quantity").value.trim();
+  const delivery_datetimeValue = document
+    .getElementById("delivery_datetime")
+    .value.trim();
+  const locationValue = document.getElementById("location").value.trim();
+  const quantityError = document.querySelector("#quantity + .error-msg");
+  const delivery_datetimeError = document.querySelector(
+    "#delivery_datetime + .error-msg",
+  );
+  const locationValueError = document.querySelector("#location + .error-msg");
+  //Reset error messages and styles
+  quantityError.textContent = "";
+  delivery_datetimeError.textContent = "";
+  locationValueError.textContent = "";
   const form = document.getElementById("orderForm");
+
+  //Check if fields are empty
+  if (
+    quantityValue === "" ||
+    delivery_datetimeValue === "" ||
+    locationValue === ""
+  ) {
+    quantityError.textContent =
+      quantityValue === "" ? "Quantity is required" : "";
+    delivery_datetimeError.textContent =
+      delivery_datetimeValue === "" ? "Delivery Datetime is required" : "";
+    locationValueError.textContent =
+      quantityValue === "" ? "Location is required" : "";
+    return;
+  }
 
   fetch("/Aqua-Jar/backend/api/placeorder.php", {
     method: "POST",

@@ -39,8 +39,6 @@ function loadMyOrders() {
               <td>${item.unit}</td>
               <td>${item.total_price}</td>
               <td>${item.status}</td>
-              <td>${item.driver_name || "-"}</td>
-              <td>${item.driver_contact || "-"}</td>
             </tr>
             `;
 

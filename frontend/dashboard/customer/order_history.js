@@ -39,7 +39,7 @@ function loadOrdersHistory() {
               <td>${item.unit}</td>
               <td>${item.total_price}</td>
               <td>${item.status}</td>
-              <td>${item.driver_name}</td>
+              <td><button onclick="window.location.href='billings.php';">View Invoice</td>
               <td><button onclick="openComplaintForm(${item.order_id})">Raise Complaint</td>
             </tr>
             `;

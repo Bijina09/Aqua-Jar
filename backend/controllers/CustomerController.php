@@ -181,7 +181,39 @@
 
         }
 
-        function createComplaint(){}
+        function getBill(){
+            
+            global $conn;
+           
+            session_start();
+
+            //If no user_id, error so check
+            //Added role check coz same id possible between tables
+            if(!isset($_SESSION['user_id']) ||
+             $_SESSION['role'] !== "customer"
+            ) {
+                //Don't go forgetting this everytime
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $orderId = $this->clean('order_id');
+
+            $order = new Orders();
+
+            $result = $order->getBill($orderId);
+
+            if(empty($result)) {
+                $this->response("error", "Order record not found");
+            }
+
+            echo json_encode([
+                "status" => "success",
+                "data" => $result
+            ]);
+
+
+        }
 
 
         //Loading stats

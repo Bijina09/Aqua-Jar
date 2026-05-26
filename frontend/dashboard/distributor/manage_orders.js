@@ -19,7 +19,7 @@ function loadOrders() {
                 <button onclick="updateStatus(${item.order_id}, 'rejected')">Reject</button>
               `;
           } else if (item.status === "accepted") {
-            actionCell = `<button onclick="assignDriver(${item.order_id})">Assign Driver</button>`;
+            actionCell = `<button onclick="updateStatus(${item.order_id}, 'out for delivery')">Dispatch Order</button>`;
           } else if (item.status === "out for delivery") {
             actionCell = `<button onclick="markDelivered(${item.order_id}, 'delivered')">Mark Delivered</button>`;
           } else if (item.status === "delivered") {
@@ -81,54 +81,6 @@ function updateStatus(orderId, status) {
     });
 }
 
-//Global to let the onsubmit access orderId
-let selectedOrderId = null;
-
-//Assigning the Driver details
-function assignDriver(orderId) {
-  selectedOrderId = orderId;
-  document.getElementById("driverForm").style.display = "block";
-  const form = document.getElementById("driverForm");
-}
-
-//Driver Form submition logic
-document.getElementById("driverForm").onsubmit = (e) => {
-  e.preventDefault();
-
-  const driverName = document.getElementById("driverName").value;
-  const driverContact = document.getElementById("driverContact").value;
-
-  fetch("/Aqua-Jar/backend/api/assignDriver.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      orderId: selectedOrderId,
-      driverName,
-      driverContact,
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-
-      if (data.status === "success") {
-        console.log(data.message);
-        showFormMessage("driver-message", data.message, true);
-        e.target.reset();
-        e.target.style.display = "none";
-        loadOrders(); // IMPORTANT
-      } else {
-        showFormMessage("driver-message", data.message, false);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      showFormMessage("driver-message", "Something went wrong", false);
-    });
-};
-
 //For Marking status delivered and adding delivered_at (time)
 function markDelivered(orderId, status) {
   fetch("/Aqua-Jar/backend/api/markDelivered.php", {
@@ -144,15 +96,15 @@ function markDelivered(orderId, status) {
 
       if (data.status === "success") {
         console.log(data.message);
-        showFormMessage("driver-message", data.message, true);
+        showFormMessage("order-message", data.message, true);
         loadOrders();
       } else {
-        showFormMessage("driver-message", data.message, false);
+        showFormMessage("order-message", data.message, false);
       }
     })
     .catch((error) => {
       console.error(error);
-      showFormMessage("driver-message", "Something went wrong", false);
+      showFormMessage("order-message", "Something went wrong", false);
     });
 }
 

@@ -17,6 +17,24 @@
 //   return true;
 // }
 
+/* ════ THEME ════════════════════════════════════════════════════════ */
+function applyTheme(dark) {
+  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+  document.getElementById("theme-toggle-btn").textContent = dark ? "☀️" : "🌙";
+  const sw = document.getElementById("dark-sw");
+  if (sw) sw.checked = dark;
+  localStorage.setItem("theme", dark ? "dark" : "light");
+}
+
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  applyTheme(!isDark);
+}
+
+function toggleThemeSwitch(el) {
+  applyTheme(el.checked);
+}
+
 function loadDashboardStats() {
   fetch(`/Aqua-Jar/backend/api/distributor/getDashboardStats.php`, {
     method: "POST",
@@ -87,6 +105,8 @@ function loadActivityFeed() {
 
 //Main init function
 function initDistributorDashboard() {
+  const saved = localStorage.getItem("theme") || "light";
+  applyTheme(saved === "dark");
   loadDashboardStats();
   loadActivityFeed();
 

@@ -1,3 +1,15 @@
+<?php
+
+    session_start();
+    if(
+        !isset($_SESSION['user_id']) ||
+        $_SESSION['role'] !== "customer"
+    ) {
+        header("Location: /Aqua-Jar/frontend/auth/login.html");
+        exit;
+    }
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,37 +21,37 @@
   <body>
     <!-- SIDEBAR -->
     <div class="sidebar">
-      <div class="logo">
-        <h1>JAR</h1>
-        <p>💧 Aqua Jar - Customer Panel</p>
-      </div>
+        <div class="logo">
+          <h1>Aqua Jar</h1>
+          <p>Customer Panel</p>
+        </div>
+        <ul>
+          <li><a href="dashboard.php" class="active">
+            <span class="icon">🏠</span> Dashboard</a></li>
+          <li><a href="my_orders.php"> <span class="icon">📦</span>My Orders</a></li>
+          <li><a href="order_history.php"> <span class="icon">📦</span>Order History</a></li>
+          <li><a href="complaint_status.php">
+            <span class="icon">🕓</span>Complaint Status</a
+          ></li>
+          <li><a
+            href="#"
+            onclick="
+              logout();
+              return false;
+            "
+            class="logout"
+            >Logout</a
+      ></li>
+      </ul>
+    
 
-      <div class="menu-title">MAIN MENU</div>
-
-      <a href="dashboard.php" class="active">
-        <span class="icon">🏠</span> >Dashboard</a
-      >
-      <a href="my_orders.php"> <span class="icon">📦</span>My Orders</a>
-      <a href="order_history.php"> <span class="icon">📦</span>Order History</a>
-      <a href="manage_complaints.php">
-        <span class="icon">🕓</span>Manage Complaints</a
-      >
-      <a
-        href="#"
-        onclick="
-          logout();
-          return false;
-        "
-        class="logout"
-        >Logout</a
-      >
-    </div>
+</div>
 
     <!-- ═══ MAIN CONTENT ═══════════════════════════════════════════════════ -->
     <div class="main-content">
       <!-- TOPBAR -->
       <div class="topbar">
-        <h1 id="welcome-msg">Welcome 👋</h1>
+        <h1 id="welcome-msg">Welcome back, <?= $_SESSION['name'] ?>!👋</h1>
         <div class="topbar-actions">
           <button
             class="theme-btn"
@@ -101,6 +113,7 @@
               <input type="hidden" id="jar_id" name="jar_id" />
               Quantity:
               <input type="number" id="quantity" name="quantity" />
+              <small class="error-msg"></small>
 
               Delivery Date & Time:
               <input
@@ -108,9 +121,11 @@
                 id="delivery_datetime"
                 name="delivery_datetime"
               />
+              <small class="error-msg"></small>
 
               Location:
               <input type="text" id="location" name="location" />
+              <small class="error-msg"></small>
 
               <button type="submit">Place Order</button>
 

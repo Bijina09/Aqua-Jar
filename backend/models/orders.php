@@ -109,22 +109,6 @@
         
         }
 
-        function assignDriver($orderId, $driverName, $driverContact) {
-            
-            $sql = "UPDATE Orders SET 
-            driver_name = ?,
-            driver_contact = ?,
-            status = 'out for delivery'
-            WHERE id = ?"; 
-
-            $stmt = $this->conn->prepare($sql);
-
-            $stmt->bind_param("ssi", $driverName, $driverContact, $orderId);
-
-            return $stmt->execute(); 
-        
-        }
-
         function markDelivered($orderId, $status) {
 
             $sql = "UPDATE Orders SET
@@ -148,9 +132,7 @@
             o.unit_price AS unit_price,
             j.unit AS unit,
             o.total_price AS total_price,
-            o.status AS status,
-            o.driver_name AS driver_name,
-            o.driver_contact AS driver_contact
+            o.status AS status
 
             FROM distributor d JOIN orders o
             ON d.id = o.distributor_id
@@ -188,8 +170,7 @@
             o.unit_price AS unit_price,
             j.unit AS unit,
             o.total_price AS total_price,
-            o.status AS status,
-            o.driver_name AS driver_name
+            o.status AS status
 
             FROM distributor d JOIN orders o
             ON d.id = o.distributor_id
@@ -272,6 +253,43 @@
             $stmt = $this->conn->prepare($sql);
 
             $stmt->bind_param("i", $customerId);
+
+            //Don't go forgetting this
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            return $result->fetch_assoc();
+
+        }
+
+        function getBill($orderId) {
+
+            $sql = "SELECT
+            o.created_at AS order_date,
+            o.status AS status,
+            c.name AS customer_name,
+            c.location AS delivery_location,
+            c.delivery_datetime AS delivery_datetime,
+            d.name AS distributor_name,
+            d.address AS location,
+            j.unit AS package_type,
+            o.quantity AS packs_ordered,
+            o.unit_price AS price_per_pack,
+            o.total_price AS total_price
+            
+
+            FROM customer c JOIN orders o
+            ON c.id = o.customer_id
+            JOIN distributor d ON d.id = o.distributor_id
+            JOIN jar j ON j.id = o.jar_id
+
+            WHERE o.id = ?
+            AND o.status = 'delivered'";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bind_param("i", $orderId);
 
             //Don't go forgetting this
             $stmt->execute();

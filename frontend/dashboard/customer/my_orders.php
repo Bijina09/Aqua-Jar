@@ -1,3 +1,15 @@
+<?php
+
+    session_start();
+    if(
+        !isset($_SESSION['user_id']) ||
+        $_SESSION['role'] !== "customer"
+    ) {
+        header("Location: /Aqua-Jar/frontend/auth/login.html");
+        exit;
+    }
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -9,37 +21,33 @@
   <body>
     <!-- SIDEBAR -->
     <div class="sidebar">
-      <div class="logo">
-        <h1>JAR</h1>
-        <p>💧 Aqua Jar - Customer Panel</p>
-      </div>
+        <h2>💧 Aqua Jar - Customer Panel</h2>
+        <ul>
+          <li><a href="dashboard.php">
+            <span class="icon">🏠</span> Dashboard</a></li>
+          <li><a href="my_orders.php" class="active"> <span class="icon">📦</span>My Orders</a></li>
+          <li><a href="order_history.php"> <span class="icon">📦</span>Order History</a></li>
+          <li><a href="complaint_status.php">
+            <span class="icon">🕓</span>Complaint Status</a
+          ></li>
+          <li><a
+            href="#"
+            onclick="
+              logout();
+              return false;
+            "
+            class="logout"
+            >Logout</a
+      ></li>
+      </ul>
+    
 
-      <div class="menu-title">MAIN MENU</div>
-
-      <a href="dashboard.php">
-        <span class="icon">🏠</span> >Dashboard</a
-      >
-      <a href="my_orders.php" class="active"> <span class="icon">📦</span>My Orders</a>
-      <a href="order_history.php"> <span class="icon">📦</span>Order History</a>
-      <a href="manage_complaints.php">
-        <span class="icon">🕓</span>Manage Complaints</a
-      >
-      <a
-        href="#"
-        onclick="
-          logout();
-          return false;
-        "
-        class="logout"
-        >Logout</a
-      >
-    </div>
-
+</div>
     <!-- ═══ MAIN CONTENT ═══════════════════════════════════════════════════ -->
     <div class="main-content">
       <!-- TOPBAR -->
       <div class="topbar">
-        <h1 id="welcome-msg">Welcome 👋</h1>
+        <h1 id="welcome-msg">Welcome back, <?= $_SESSION['name'] ?>!👋</h1>
         <div class="topbar-actions">
           <button
             class="theme-btn"
@@ -69,8 +77,6 @@
                         <th>Unit</th>
                         <th>Total Price</th>
                         <th>Order Status</th>
-                        <th>Driver Name</th>
-                        <th>Driver Contact</th>
                         </tr>
                     </thead>
                     <tbody id="myOrderTable">
