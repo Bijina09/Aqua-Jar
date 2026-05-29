@@ -19,31 +19,53 @@
     <link rel="stylesheet" href="dashboard.css" />
   </head>
   <body>
-    <!-- SIDEBAR -->
+     <!-- SIDEBAR -->
     <div class="sidebar">
-        <h2>💧 Aqua Jar</h2>
-        <h3>Customer Dashboard</h3>
-        <ul>
-          <li><a href="dashboard.php">
-            <span class="icon">🏠</span> Dashboard</a></li>
-          <li><a href="my_orders.php"> <span class="icon">📦</span>My Orders</a></li>
-          <li><a href="order_history.php" class="active"> <span class="icon">📦</span>Order History</a></li>
-          <li><a href="complaint_status.php">
-            <span class="icon">🕓</span>Complaint Status</a
-          ></li>
-          <li><a
+        <div class="logo">
+          <h1>Aqua Jar</h1>
+          <p>Customer Panel</p>
+        </div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.php">
+              <span class="icon">🏠</span> Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="my_orders.php">
+              <span class="icon">📦</span>My Orders
+            </a>
+          </li>
+          <li>
+            <a href="order_history.php" class="active">
+              <span class="icon">📦</span>Order History
+            </a>
+          </li>
+          <li>
+            <a href="complaint_status.php">
+              <span class="icon">🕓</span>Complaint Status
+            </a>
+          </li>
+        </ul>
+
+         <!-- Bottom section -->
+        <div class="sidebar-bottom">
+
+          <a href="profile.php">
+            <span class="icon">👤</span> Profile
+          </a>
+
+          <a
             href="#"
             onclick="
               logout();
               return false;
             "
             class="logout"
-            >Logout</a
-      ></li>
-      </ul>
-    
-
-</div>
+            ><span class="icon">🚪</span> Logout
+          </a>
+        </div>
+    </div>
 
     <!-- ═══ MAIN CONTENT ═══════════════════════════════════════════════════ -->
     <div class="main-content">
@@ -74,9 +96,9 @@
                     <thead>
                         <tr>
                         <th>Distributor</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Unit</th>
+                        <th>Packs Ordered</th>
+                        <th>Price per Pack</th>
+                        <th>Package Type</th>
                         <th>Total Price</th>
                         <th>Status</th>
                         <th>Billing</th>
@@ -89,16 +111,21 @@
                         
             </div>
             </div>
-            <div class="form-group">
+              <div class="form-wrapper">
                 <form id="complaintForm" style="display:none;" enctype="multipart/form-data">
                     <input type="hidden" id="order_id" name="order_id">
                     
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" row="4" cols="50" placeholder="Type your complaint here..."></textarea>
-
-                    <label for="image">Choose a photo:</label>
-                    <input type="file" id="image" name="image" accept="image/*">
-
+                    <div class="form-group">
+                      <label for="message">Message:</label>
+                      <textarea id="message" name="message" row="4" cols="50" placeholder="Type your complaint here..."></textarea>
+                      <small class="error-msg"></small>
+                    </div>
+                    <div class="form-group">
+                      <label for="image">Choose a photo:</label>
+                      <input type="file" id="image" name="image"
+                      accept="image/png, image/jpeg">
+                      <small class="error-msg"></small>
+                    </div>
                     <button type="submit">Submit Complaint</button>
 
                     <p id="complaint-message" class="form-message"></p>

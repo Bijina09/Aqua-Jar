@@ -112,14 +112,14 @@
 
         }
 
-        public function editData($id,$name,$address,$phone,$email) {
+        public function editData($id,$name,$address,$phone) {
 
             $sql = "UPDATE customer SET
-            name = ?, address = ?, phone = ?, email = ?  WHERE id = ?";
+            name = ?, address = ?, phone = ? WHERE id = ?";
 
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bind_param("ssssi", $name, $address, $phone, $email, $id);
+            $stmt->bind_param("sssi", $name, $address, $phone, $id);
 
             return $stmt->execute();
         }

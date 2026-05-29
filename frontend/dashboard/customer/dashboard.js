@@ -28,8 +28,7 @@ function toggleThemeSwitch(el) {
 //   };
 //   return map[status.toLowerCase()] || "badge-pending";
 // }
-
-//Below functions js
+//
 
 function loadDashboardStats() {
   fetch(`/Aqua-Jar/backend/api/customer/getDashboardStats.php`, {
@@ -80,7 +79,10 @@ function loadJars() {
             <td>${item.unit}</td>
             <td>${item.stock}</td>
             <td>${item.service_area}</td>
-            <td button onclick="openForm(${item.distributor_id},${item.jar_id})">Order</td>
+            <td>
+             <button onclick="openForm(${item.distributor_id},${item.jar_id},'${item.unit}',${item.price})">
+             Order</button>
+            </td>
           </tr>
           `;
           table.innerHTML += row;
@@ -104,44 +106,23 @@ function loadJars() {
 }
 
 //Function for opening the form to place the order
-function openForm(distributorId, jarId) {
+function openForm(distributorId, jarId, unit, price) {
   document.getElementById("orderForm").style.display = "block";
   document.getElementById("distributor_id").value = distributorId;
   document.getElementById("jar_id").value = jarId; //To know which jar
+  document.getElementById("unit").value = unit;
+  document.getElementById("price").value = price;
 }
 
 //Handling what happens after the order form is submitted
 document.getElementById("orderForm").addEventListener("submit", (e) => {
   e.preventDefault();
-  //Get form elements
-  const quantityValue = document.getElementById("quantity").value.trim();
-  const delivery_datetimeValue = document
-    .getElementById("delivery_datetime")
-    .value.trim();
-  const locationValue = document.getElementById("location").value.trim();
-  const quantityError = document.querySelector("#quantity + .error-msg");
-  const delivery_datetimeError = document.querySelector(
-    "#delivery_datetime + .error-msg",
-  );
-  const locationValueError = document.querySelector("#location + .error-msg");
-  //Reset error messages and styles
-  quantityError.textContent = "";
-  delivery_datetimeError.textContent = "";
-  locationValueError.textContent = "";
+
   const form = document.getElementById("orderForm");
 
-  //Check if fields are empty
-  if (
-    quantityValue === "" ||
-    delivery_datetimeValue === "" ||
-    locationValue === ""
-  ) {
-    quantityError.textContent =
-      quantityValue === "" ? "Quantity is required" : "";
-    delivery_datetimeError.textContent =
-      delivery_datetimeValue === "" ? "Delivery Datetime is required" : "";
-    locationValueError.textContent =
-      quantityValue === "" ? "Location is required" : "";
+  if (!validateForm()) {
+    document.getElementById("order-message").textContent =
+      "Please fix errors before submitting.";
     return;
   }
 
@@ -171,6 +152,50 @@ document.getElementById("orderForm").addEventListener("submit", (e) => {
     });
 });
 
+function validateForm() {
+  let isValid = true;
+
+  const quantity = document.getElementById("quantity");
+  const delivery = document.getElementById("delivery_datetime");
+  const location = document.getElementById("location");
+
+  const qtyError = quantity.nextElementSibling;
+  const deliveryError = delivery.nextElementSibling;
+  const locationError = location.nextElementSibling;
+
+  // clear errors
+  qtyError.textContent = "";
+  deliveryError.textContent = "";
+  locationError.textContent = "";
+
+  // Quantity
+  if (quantity.value.trim() === "" || quantity.value <= 0) {
+    qtyError.textContent = "Enter valid quantity";
+    isValid = false;
+  }
+
+  // Delivery datetime
+  if (delivery.value.trim() === "") {
+    deliveryError.textContent = "Select delivery date/time";
+    isValid = false;
+  } else {
+    const selected = new Date(delivery.value);
+    const now = new Date();
+
+    if (selected <= now) {
+      deliveryError.textContent = "Must be future time";
+      isValid = false;
+    }
+  }
+
+  // Location
+  if (location.value.trim().length < 3) {
+    locationError.textContent = "Enter valid location";
+    isValid = false;
+  }
+
+  return isValid;
+}
 //Main init function
 function initCustomerDashboard() {
   const saved = localStorage.getItem("theme") || "light";
@@ -179,12 +204,20 @@ function initCustomerDashboard() {
   loadJars();
 
   // Five min auto reload (polling)
-  // setInterval(() => {
-  //   (loadDashboardStats(), loadJars());
-  // }, 5000);
+  setInterval(() => {
+    (loadDashboardStats(), loadJars());
+  }, 5000);
+}
+
+function getLocalDateTime() {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  return now.toISOString().slice(0, 16);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM Loaded");
+
+  document.getElementById("delivery_datetime").min = getLocalDateTime();
   initCustomerDashboard();
 });

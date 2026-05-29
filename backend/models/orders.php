@@ -266,13 +266,14 @@
         function getBill($orderId) {
 
             $sql = "SELECT
+            o.id AS order_id,
             o.created_at AS order_date,
             o.status AS status,
             c.name AS customer_name,
-            c.location AS delivery_location,
-            c.delivery_datetime AS delivery_datetime,
+            o.location AS delivery_location,
+            o.delivery_datetime AS delivery_datetime,
             d.name AS distributor_name,
-            d.address AS location,
+            d.address AS distributor_location,
             j.unit AS package_type,
             o.quantity AS packs_ordered,
             o.unit_price AS price_per_pack,

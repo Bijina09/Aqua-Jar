@@ -17,7 +17,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aqua Jar – Customer Dashboard</title>
     <link rel="stylesheet" href="dashboard.css" />
-  </head>
   <body>
     <!-- SIDEBAR -->
     <div class="sidebar">
@@ -25,27 +24,47 @@
           <h1>Aqua Jar</h1>
           <p>Customer Panel</p>
         </div>
-        <ul>
-          <li><a href="dashboard.php" class="active">
-            <span class="icon">🏠</span> Dashboard</a></li>
-          <li><a href="my_orders.php"> <span class="icon">📦</span>My Orders</a></li>
-          <li><a href="order_history.php"> <span class="icon">📦</span>Order History</a></li>
-          <li><a href="complaint_status.php">
-            <span class="icon">🕓</span>Complaint Status</a
-          ></li>
-          <li><a
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.php" class="active">
+              <span class="icon">🏠</span> Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="my_orders.php">
+              <span class="icon">📦</span>My Orders
+            </a>
+          </li>
+          <li>
+            <a href="order_history.php">
+              <span class="icon">📦</span>Order History
+            </a>
+          </li>
+          <li>
+            <a href="complaint_status.php">
+              <span class="icon">🕓</span>Complaint Status
+            </a>
+          </li>
+        </ul>
+
+         <!-- Bottom section -->
+        <div class="sidebar-bottom">
+
+          <a href="profile.php">
+            <span class="icon">👤</span> Profile
+          </a>
+
+          <a
             href="#"
             onclick="
               logout();
               return false;
             "
             class="logout"
-            >Logout</a
-      ></li>
-      </ul>
-    
-
-</div>
+            ><span class="icon">🚪</span> Logout
+          </a>
+        </div>
+    </div>
 
     <!-- ═══ MAIN CONTENT ═══════════════════════════════════════════════════ -->
     <div class="main-content">
@@ -91,12 +110,12 @@
         <div class="table-wrap">
           <h2>Available Jars to Order</h2>
           <div id="jars-area">
-            <table border="1" width="100%">
+            <table>
               <thead>
                 <tr>
                   <th>Distributor</th>
-                  <th>Price</th>
-                  <th>Unit</th>
+                  <th>Price per Pack</th>
+                  <th>Package Type</th>
                   <th>Stock</th>
                   <th>Service Area</th>
                   <th>Order</th>
@@ -107,32 +126,53 @@
             <p id="jar-message" class="form-message"></p>
           </div>
         </div>
-        <div class="form-group">
+
+        <div class="form-wrapper">
             <form id="orderForm" style="display: none">
               <input type="hidden" id="distributor_id" name="distributor_id" />
               <input type="hidden" id="jar_id" name="jar_id" />
-              Quantity:
-              <input type="number" id="quantity" name="quantity" />
-              <small class="error-msg"></small>
 
-              Delivery Date & Time:
-              <input
-                type="datetime-local"
-                id="delivery_datetime"
-                name="delivery_datetime"
-              />
-              <small class="error-msg"></small>
+              <div class="form-group">
+                <label for="unit">Package Selected:</label>
+                <input type="text"
+                id="unit" name="unit" disabled/>
+              </div>
 
-              Location:
-              <input type="text" id="location" name="location" />
-              <small class="error-msg"></small>
+              <div class="form-group">
+              <label for="price">Price Per Pack:</label>
+              <input type="text"
+              id="price" name="price" disabled/>
+              </div>
 
+              <div class="form-group">
+                <label for="quantity">No of Packs:</label>
+                <input 
+                type="number" 
+                id="quantity" 
+                name="quantity" required/>
+                <small class="error-msg"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="quantity">Delivery Date and Time:</label>
+                <input
+                  type="datetime-local"
+                  id="delivery_datetime"
+                  name="delivery_datetime" required/>
+                <small class="error-msg"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="quantity">Location:</label>
+                <input type="text" id="location" name="location" required/>
+                <small class="error-msg"></small>
+              </div>
               <button type="submit">Place Order</button>
 
               <p id="order-message" class="form-message"></p>
             </form>
+
         </div>
-        
       </div>
     
     <script src="dashboard.js"></script>

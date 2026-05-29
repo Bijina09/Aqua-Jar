@@ -71,6 +71,14 @@ document.getElementById("resolveForm").onsubmit = (e) => {
   e.preventDefault();
 
   const reply = document.getElementById("reply").value.trim();
+  const replyError = document.getElementById("reply").nextElementSibling;
+
+  replyError.textContent = "";
+
+  if (reply.length < 5) {
+    replyError.textContent = "Reply should be atleast 5 characters";
+    return;
+  }
   fetch("/Aqua-Jar/backend/api/resolveComplaint.php", {
     method: "POST",
     headers: {

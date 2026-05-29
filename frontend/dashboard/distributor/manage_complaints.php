@@ -32,6 +32,7 @@
         <a href="manage_jars.php">Manage Jars</a>
         <a href="manage_orders.php">Manage Orders</a>
         <a href="manage_complaints.php" class="active">Manage Complaints</a>
+        <a href="profile.php">Profile</a>
         <a href="#" onclick="logout(); return false;" class="logout">Logout</a>
       </div>
 
@@ -73,6 +74,7 @@
                 placeholder="Type your reply here..." 
                 required
               ></textarea>
+              <small class="error-msg"><small>
             </div>
 
             <p id="resolve-message" class="form-message"></p>

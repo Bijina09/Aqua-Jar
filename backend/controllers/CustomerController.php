@@ -86,19 +86,17 @@
             $name = $this->clean('name');
             $address = $this->clean('address');
             $phone = $this->clean('phone');
-            $email = $this->clean('email');
 
             if (
                 empty($name) ||
                 empty($address) ||
-                empty($phone) ||
-                empty($email)
+                empty($phone)
             ) {
                 $this->response("error", "Fields cannot be empty");
             }
             
             $result = $customer->editData(
-                $user_id,$name,$address,$phone,$email);
+                $user_id,$name,$address,$phone);
 
             if(!$result) {
                 $this->response("error", "Update Failed");
@@ -197,9 +195,9 @@
 
             }
 
-            $orderId = $this->clean('order_id');
+            $orderId = $_GET['order_id'];
 
-            $order = new Orders();
+            $order = new Orders($conn);
 
             $result = $order->getBill($orderId);
 

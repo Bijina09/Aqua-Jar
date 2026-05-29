@@ -31,6 +31,9 @@ function viewComplaintStatus() {
         data.data.forEach((item) => {
           // Template literals (backticks ` `) in JavaScript
 
+          if (item.status === "OPEN") badgeClass = "badge badge-OPEN";
+          else if (item.status === "resolved")
+            badgeClass = "badge badge-resolved";
           const row = `
             <tr>
               <td>${item.distributor_name}</td>
@@ -44,9 +47,13 @@ function viewComplaintStatus() {
                 }
                </td>
               <td>${item.reply}</td>
-              <td>${item.status}</td>
+              <td><span class="${badgeClass}">${item.status}</span></td>
               <td>${item.submitted_at}</td>
-              <td>${item.resolved_at || "Pending"}</td>
+              <td>${
+                item.resolved_at
+                  ? item.resolved_at
+                  : `<span class="badge badge-pending">Pending</span>`
+              }</td>
             </tr>
             `;
 
@@ -77,9 +84,9 @@ function initCustomerDashboard() {
   viewComplaintStatus();
 
   // Five min auto reload (polling)
-  // setInterval(() => {
-  //   (loadMyOrders());
-  // }, 5000);
+  setInterval(() => {
+    viewComplaintStatus();
+  }, 5000);
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -17,30 +17,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aqua Jar – Customer Dashboard</title>
     <link rel="stylesheet" href="dashboard.css" />
-  </head>
   <body>
-    <!-- SIDEBAR -->
+     <!-- SIDEBAR -->
     <div class="sidebar">
-        <h2>💧 Aqua Jar - Customer Panel</h2>
-        <ul>
-          <li><a href="dashboard.php">
-            <span class="icon">🏠</span> Dashboard</a></li>
-          <li><a href="my_orders.php" class="active"> <span class="icon">📦</span>My Orders</a></li>
-          <li><a href="order_history.php"> <span class="icon">📦</span>Order History</a></li>
-          <li><a href="complaint_status.php">
-            <span class="icon">🕓</span>Complaint Status</a
-          ></li>
-          <li><a
+        <div class="logo">
+          <h1>Aqua Jar</h1>
+          <p>Customer Panel</p>
+        </div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.php">
+              <span class="icon">🏠</span> Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="my_orders.php" class="active">
+              <span class="icon">📦</span>My Orders
+            </a>
+          </li>
+          <li>
+            <a href="order_history.php">
+              <span class="icon">📦</span>Order History
+            </a>
+          </li>
+          <li>
+            <a href="complaint_status.php">
+              <span class="icon">🕓</span>Complaint Status
+            </a>
+          </li>
+        </ul>
+
+         <!-- Bottom section -->
+        <div class="sidebar-bottom">
+
+          <a href="profile.php">
+            <span class="icon">👤</span> Profile
+          </a>
+
+          <a
             href="#"
             onclick="
               logout();
               return false;
             "
             class="logout"
-            >Logout</a
-      ></li>
-      </ul>
-    
+            ><span class="icon">🚪</span> Logout
+          </a>
+        </div>
+    </div>
 
 </div>
     <!-- ═══ MAIN CONTENT ═══════════════════════════════════════════════════ -->
@@ -72,9 +96,9 @@
                     <thead>
                         <tr>
                         <th>Distributor</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Unit</th>
+                        <th>Packs Ordered</th>
+                        <th>Price per Pack</th>
+                        <th>Package Type</th>
                         <th>Total Price</th>
                         <th>Order Status</th>
                         </tr>

@@ -32,6 +32,7 @@
         <a href="manage_jars.php">Manage Jars</a>
         <a href="manage_orders.php">Manage Orders</a>
         <a href="manage_complaints.php">Manage Complaints</a>
+        <a href="profile.php">Profile</a>
         <a href="#" onclick="logout(); return false;" class="logout">Logout</a>
       </div>
 

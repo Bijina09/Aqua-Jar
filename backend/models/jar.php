@@ -55,7 +55,7 @@
 
         //For Jar Details
         public function getJars($distributorId) {
-            $sql = "SELECT quantity, price, unit
+            $sql = "SELECT id, quantity, price, unit
             FROM jar 
             WHERE distributor_id = ? 
             ORDER BY id DESC";
@@ -65,6 +65,18 @@
             $stmt->execute();
             
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        }
+
+         //For Jar Details
+        public function editJar($jarId, $price, $quantity) {
+            $sql = "UPDATE jar SET
+            price = ?,
+            quantity = ? 
+            WHERE id = ?";
+    
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("dii", $price, $quantity, $jarId);
+            return $stmt->execute();
         }
 
     }

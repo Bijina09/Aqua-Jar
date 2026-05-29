@@ -107,7 +107,7 @@
                 $this->response("error", "Fields cannot be empty");
             }
             $result = $distributor->editData($user_id, $name, $address, $phone, $panNo, $supplierName,
-                     $supplierPanNo, $email);
+                     $supplierPanNo, $email, $serviceArea);
 
             if(!$result) {
                 $this->response("error", "Edit failure");
@@ -254,6 +254,46 @@
                 "status" => "success",
                 "data" => $result
             ]);
+        }
+
+        function editJar(){
+            global $conn;
+           
+            session_start();
+
+            //If no user_id, error so check
+            //Added role check coz same id possible between tables
+            if(!isset($_SESSION['user_id']) ||
+             $_SESSION['role'] !== "distributor"
+            ) {
+                //Don't go forgetting this everytime
+                $this->response("error", "Unauthorized");
+
+            }
+
+            $user_id = $_SESSION['user_id'];
+
+            $jar = new Jar($conn);
+
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            $jarId = $data['jarId'];
+            $price = $data['price'];
+            $quantity = $data['quantity'];
+
+            if (
+                empty($price) ||
+                empty($quantity) 
+            ) {
+                $this->response("error", "Fields cannot be empty");
+            }
+            $result = $jar->editJar($jarId, $price, $quantity);
+
+            if(!$result) {
+                $this->response("error", "Edit failure");
+            }
+
+            $this->response("success", "Updated successfully");
         }
 
  

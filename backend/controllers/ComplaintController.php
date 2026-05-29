@@ -44,7 +44,7 @@
             //Cleaning $_POST
             $order_id = $this->clean("order_id");
             $message = $this->clean("message");
-            $image = $_FILES['image'];
+            $image = $_FILES['image'] ?? null;
 
             //Safe input check
             if (
@@ -58,12 +58,17 @@
 
             //File exists and upload is valid
             //0-success, 1-file too large, 4-no file uploaded
-            if(isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+            if($image && $image['error'] === 0) {
                 
-                $allowed = ['image/jpeg','image/png','image/jpg'];
+                $allowed = ['image/jpeg','image/png'];
 
-                if (!in_array($_FILES['image']['type'], $allowed)) {
+                if (!in_array($image['type'], $allowed)) {
                     return $this->response("error", "Invalid image type");
+                }
+
+                //Max 2MB
+                if ($image['size'] > 2 * 1024 * 1024) {
+                    return $this->response("error", "Image must be less than 2MB");
                 }
 
                 //backend/uploads
@@ -76,7 +81,9 @@
                 $targetFile = $targetDir . $fileName;
 
                 //Copies from PHP temp storage into the uploads folder
-                move_uploaded_file($image["tmp_name"], $targetFile);
+                if (!move_uploaded_file($image["tmp_name"], $targetFile)) {
+                    $this->response("error", "Image upload failed");
+                }
 
                 //Relative path (Becomes src) Used for browser display
                 $imagePath = "/Aqua-Jar/backend/uploads/" . $fileName;

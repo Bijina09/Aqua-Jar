@@ -33,6 +33,7 @@
         <a href="manage_jars.php" class="active">Manage Jars</a>
         <a href="manage_orders.php">Manage Orders</a>
         <a href="manage_complaints.php">Manage Complaints</a>
+        <a href="profile.php">Profile</a>
         <a href="#" onclick="logout(); return false;" class="logout">Logout</a>
       </div>
 
@@ -46,29 +47,35 @@
         <!-- FORM -->
         <div class="panel">
           <form class="form-box" id="postForm">
-            <input 
-            type="number" 
-            id="quantity" 
-            name="quantity"
-            placeholder="Enter Available Stock"
-            required
-            />
-            <input
-              type="text"
-              id="price"
-              name="price"
-              placeholder="Enter Price"
-              required
-            />
             <input
               type="text"
               id="unit"
               name="unit"
-              placeholder="Enter Unit"
+              placeholder="Enter package type (eg., Per 2 packs)"
               required
             />
+            <small class="error-msg"></small>
+            <input
+              type="text"
+              id="price"
+              name="price"
+              placeholder="Enter price per pack"
+              required
+            />
+            <small class="error-msg"></small>
+            <input 
+            type="number" 
+            id="quantity" 
+            name="quantity"
+            placeholder="Enter available stock"
+            required
+            />
+            <small class="error-msg"></small>
+            
+            
             <p id="post-message" class="form-message"></p>
             <button name="add" type="submit">Add Jar</button>
+          </form>
         </div>
 
         <!-- TABLE -->
@@ -81,15 +88,41 @@
             <table>
             <thead>
               <tr>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Unit</th>
+                <th>Available Stock</th>
+                <th>Price per Pack</th>
+                <th>Package Type</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="jarDetailsTable">
             </tbody> 
             </table>
+        </div>
+        <!-- FORM -->
+        <div class="panel">
+          <form class="form-box" id="editJarForm" style="display: none;">
+            <input
+              type="text"
+              id="newPrice"
+              name="price"
+              placeholder="Enter new price per pack"
+              required
+            />
+            <small class="error-msg"></small>
+
+            <input 
+            type="number" 
+            id="newQuantity" 
+            name="quantity"
+            placeholder="Enter new available stock"
+            required
+            />
+            <small class="error-msg"></small>
+            
+            <p id="editJar-message" class="form-message"></p>
+            <button name="edit" type="submit">Edit Jar</button>
+          </form>
         </div>
       </div>
     </div>

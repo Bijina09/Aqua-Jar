@@ -25,27 +25,47 @@
           <h1>Aqua Jar</h1>
           <p>Customer Panel</p>
         </div>
-        <ul>
-          <li><a href="dashboard.php">
-            <span class="icon">🏠</span> Dashboard</a></li>
-          <li><a href="my_orders.php"> <span class="icon">📦</span>My Orders</a></li>
-          <li><a href="order_history.php"> <span class="icon">📦</span>Order History</a></li>
-          <li><a href="complaint_status.php" class="active">
-            <span class="icon">🕓</span>Complaint Status</a
-          ></li>
-          <li><a
+        <ul class="sidebar-menu">
+          <li>
+            <a href="dashboard.php">
+              <span class="icon">🏠</span> Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="my_orders.php">
+              <span class="icon">📦</span>My Orders
+            </a>
+          </li>
+          <li>
+            <a href="order_history.php">
+              <span class="icon">📦</span>Order History
+            </a>
+          </li>
+          <li>
+            <a href="complaint_status.php"  class="active">
+              <span class="icon">🕓</span>Complaint Status
+            </a>
+          </li>
+        </ul>
+
+         <!-- Bottom section -->
+        <div class="sidebar-bottom">
+
+          <a href="profile.php">
+            <span class="icon">👤</span> Profile
+          </a>
+
+          <a
             href="#"
             onclick="
               logout();
               return false;
             "
             class="logout"
-            >Logout</a
-      ></li>
-      </ul>
-    
-
-</div>
+            ><span class="icon">🚪</span> Logout
+          </a>
+        </div>
+    </div>
 
     <!-- ═══ MAIN CONTENT ═══════════════════════════════════════════════════ -->
     <div class="main-content">

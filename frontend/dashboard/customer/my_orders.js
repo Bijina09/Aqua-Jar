@@ -31,6 +31,17 @@ function loadMyOrders() {
         data.data.forEach((item) => {
           // Template literals (backticks ` `) in JavaScript
 
+          let badgeClass = "";
+
+          if (item.status === "pending") badgeClass = "badge badge-pending";
+          else if (item.status === "delivered")
+            badgeClass = "badge badge-delivered";
+          else if (item.status === "out for delivery")
+            badgeClass = "badge badge-out";
+          else if (item.status === "accepted")
+            badgeClass = "badge badge-accepted";
+          else if (item.status === "rejected")
+            badgeClass = "badge badge-rejected";
           const row = `
             <tr>
               <td>${item.distributor_name}</td>
@@ -38,7 +49,7 @@ function loadMyOrders() {
               <td>${item.unit_price}</td>
               <td>${item.unit}</td>
               <td>${item.total_price}</td>
-              <td>${item.status}</td>
+              <td><span class="${badgeClass}">${item.status}</span></td>
             </tr>
             `;
 
@@ -69,9 +80,9 @@ function initCustomerDashboard() {
   loadMyOrders();
 
   // Five min auto reload (polling)
-  // setInterval(() => {
-  //   (loadMyOrders());
-  // }, 5000);
+  setInterval(() => {
+    loadMyOrders();
+  }, 5000);
 }
 
 document.addEventListener("DOMContentLoaded", () => {

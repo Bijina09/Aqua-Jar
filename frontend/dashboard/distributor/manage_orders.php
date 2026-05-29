@@ -36,6 +36,7 @@
             <a href="manage_jars.php">Manage Jars</a>
             <a href="manage_orders.php" class="active">Manage Orders</a>
             <a href="manage_complaints.php">Manage Complaints</a>
+            <a href="profile.php">Profile</a>
             <a href="#" onclick="logout(); return false;" class="logout">Logout</a>
 
         </div>
@@ -57,7 +58,7 @@
                     <thead>
                         <tr>
                         <th>Customer</th>
-                        <th>Quantity</th>
+                        <th>Packs Ordered</th>
                         <th>Location</th>
                         <th>Delivery Date and Time</th>
                         <th>Status</th>
