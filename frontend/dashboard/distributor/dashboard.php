@@ -47,14 +47,6 @@
           </div>
 
           <div class="date-box"><?php echo date("l, d M Y"); ?></div>
-          <button
-            class="theme-btn"
-            id="theme-toggle-btn"
-            onclick="toggleTheme()"
-            title="Toggle dark/light mode"
-          >
-            🌙
-          </button>
         </div>
 
         <!-- STATS -->
