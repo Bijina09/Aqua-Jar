@@ -5,8 +5,21 @@ A web-based jar water supply and complaint management system that connects house
 > **Project - V (BIT306CO)** | Bachelor in Information Technology  
 > Kantipur City College, Purbanchal University | May 2026
 
----
+**🎥 Demo video:** [Watch the 2-minute walkthrough](https://drive.google.com/drive/folders/1nqL0l3VbAQRTVsN1zZ6cl1api7yHz_Al?dmr=1&ec=wgc-drive-%5Bmodule%5D-goto)
+*Runs locally with XAMPP; there is no live deployment.*
 
+---
+## 📸 Screenshots
+
+| Customer: place an order | Order tracking |
+|---|---|
+| ![Detection result](docs/screenshots/order-jar.png) | ![User dashboard](docs/screenshots/order-status.png) |
+
+| Invoice | Distributor dashboard |
+|---|---|
+| ![Admin training data review](docs/screenshots/bill.png) | ![Admin model management](docs/screenshots/distributor-manage-orders.png) |  
+
+---
 ## 👥 Team
 
 | Name              | Roll No. | Responsibilities                                       |
@@ -94,40 +107,26 @@ Key relationships:
 - VS Code or any code editor
 
 ### Steps
-
-1. **Clone the repository**
-
+1. Clone the repository
    ```bash
    git clone https://github.com/Bijina09/Aqua-Jar.git
-   cd aqua-jar
+   cd Aqua-Jar
    ```
-
-2. **Move to XAMPP's htdocs folder**
-
-   ```bash
-   # Windows
-   C:\xampp\htdocs\aqua-jar
-   ```
-
-3. **Start Apache and MySQL** in the XAMPP Control Panel
-
-4. **Import the database**
-   - Open `http://localhost/phpmyadmin`
+2. Move the `Aqua-Jar` folder into XAMPP's `htdocs`
+   (Windows: `C:\xampp\htdocs\Aqua-Jar`)
+3. Start Apache and MySQL in the XAMPP Control Panel
+4. Import the database
+   - Open http://localhost/phpmyadmin
    - Create a database named `aquajardb`
-   - Import `aquajardb.sql` from the `/database` folder
-
-5. **Configure DB connection**  
-   Update credentials in `config/db.php` if needed:
-
+   - Import the `.sql` file from the `/database` folder
+5. Check the DB connection in `backend/config/db.php` and update if needed:
    ```php
    $host = "localhost";
    $dbname = "aquajardb";
    $username = "root";
    $password = "";
    ```
-
-6. **Access the app**  
-   Open `http://localhost/aqua-jar` in your browser
+6. Open http://localhost/Aqua-Jar/frontend/auth/login.html
 
 ---
 
